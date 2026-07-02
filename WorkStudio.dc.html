@@ -735,31 +735,73 @@
           </section>
           <section style="display:grid;grid-template-columns:{{ col_16_1 }};gap:16px;align-items:start">
             <div data-anim style="animation:wsUp .5s cubic-bezier(.4,0,.2,1) both;background:#fff;border:1px solid #ececee;border-radius:20px;overflow:hidden;overflow-x:{{ tScroll }};box-shadow:0 1px 2px rgba(16,24,40,.04)">
-              <div style="padding:20px 24px;border-bottom:1px solid #ececee"><h3 style="margin:0;font-size:16px;font-weight:600;letter-spacing:-.3px">Leave Requests</h3></div>
+              <div style="padding:20px 24px 16px;border-bottom:1px solid #ececee">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+                  <div><h3 style="margin:0;font-size:16px;font-weight:600;letter-spacing:-.3px">Leave Requests</h3><p style="margin:4px 0 0;font-size:12.5px;color:#a1a5ae;font-weight:400">{{ leaveScopeLabel }} · {{ leaveCount }} shown</p></div>
+                </div>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:15px">
+                  <sc-for list="{{ leaveFilters }}" as="f" hint-placeholder-count="4">
+                    <button onClick="{{ f.onClick }}" style="display:flex;align-items:center;gap:8px;border:1px solid {{ f.bd }};cursor:pointer;background:{{ f.bg }};color:{{ f.fg }};font-weight:600;font-size:13px;padding:8px 13px;border-radius:11px;transition:all .18s">{{ f.label }}<span style="font-size:11px;font-weight:700;background:{{ f.cbg }};color:{{ f.cfg }};border-radius:6px;padding:1px 7px">{{ f.count }}</span></button>
+                  </sc-for>
+                </div>
+              </div>
               <sc-for list="{{ leaveReqs }}" as="r" hint-placeholder-count="6">
-                <div onClick="{{ r.onOpen }}" style="display:flex;align-items:center;gap:14px;padding:14px 24px;border-bottom:1px solid #f4f4f5;cursor:pointer" style-hover="background:#fafbff">
-                  <div style="width:40px;height:40px;flex:none;border-radius:12px;background:linear-gradient(180deg,#f4f4f5,#e7e8ec);display:flex;align-items:center;justify-content:center;color:#3f434b;font-weight:600;font-size:13px;border:1px solid #ececef">{{ r.initials }}</div>
-                  <div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600;color:#18181b">{{ r.name }}</div><div style="font-size:12px;font-weight:400;color:#a1a5ae">{{ r.type }} · {{ r.range }} · {{ r.days }}</div></div>
-                  <span style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:#52555c;background:#f6f6f7;border:1px solid #ececed;border-radius:8px;padding:4px 9px"><span style="width:6px;height:6px;border-radius:50%;background:{{ r.dot }}"></span>{{ r.status }}</span>
+                <div style="display:flex;align-items:center;gap:14px;padding:14px 24px;border-bottom:1px solid #f4f4f5;min-width:{{ tMin }}">
+                  <div onClick="{{ r.onOpen }}" style="width:40px;height:40px;flex:none;border-radius:12px;background:linear-gradient(180deg,#f4f4f5,#e7e8ec);display:flex;align-items:center;justify-content:center;color:#3f434b;font-weight:600;font-size:13px;border:1px solid #ececef;cursor:pointer">{{ r.initials }}</div>
+                  <div onClick="{{ r.onOpen }}" style="flex:1;min-width:0;cursor:pointer"><div style="font-size:14px;font-weight:600;color:#18181b">{{ r.name }} <span style="font-size:11.5px;font-weight:500;color:#b4b8c0">· {{ r.dept }}</span></div><div style="font-size:12px;font-weight:400;color:#a1a5ae">{{ r.type }} · {{ r.range }} · {{ r.days }}</div></div>
+                  <sc-if value="{{ r.isPending }}" hint-placeholder-val="{{ true }}">
+                    <div style="display:flex;gap:8px;flex:none">
+                      <button onClick="{{ r.onApprove }}" title="Approve" style="display:flex;align-items:center;gap:6px;border:none;cursor:pointer;background:#18181b;color:#fff;font-weight:600;font-size:12.5px;padding:8px 13px;border-radius:10px"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>Approve</button>
+                      <button onClick="{{ r.onReject }}" title="Reject" style="display:flex;align-items:center;gap:6px;border:1px solid #e6e6e9;cursor:pointer;background:#fff;color:#c0413a;font-weight:600;font-size:12.5px;padding:8px 13px;border-radius:10px"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"></path></svg>Reject</button>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ r.isPending }}" hint-placeholder-val="{{ false }}"></sc-if>
+                  <span style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:#52555c;background:#f6f6f7;border:1px solid #ececed;border-radius:8px;padding:4px 9px;flex:none"><span style="width:6px;height:6px;border-radius:50%;background:{{ r.dot }}"></span>{{ r.status }}</span>
                 </div>
               </sc-for>
             </div>
             <div data-anim style="animation:wsUp .5s cubic-bezier(.4,0,.2,1) both;background:#fff;border:1px solid #ececee;border-radius:20px;padding:24px;box-shadow:0 1px 2px rgba(16,24,40,.04)">
-              <h3 style="margin:0 0 18px;font-size:15.5px;font-weight:600;letter-spacing:-.3px">My Leave Balance</h3>
-              <div style="display:flex;flex-direction:column;gap:16px">
-                <sc-for list="{{ leaveTypes }}" as="l" hint-placeholder-count="4">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:6px">
+                <div><h3 style="margin:0;font-size:15.5px;font-weight:600;letter-spacing:-.3px">Annual Allocation</h3><p style="margin:4px 0 0;font-size:12px;color:#a1a5ae;font-weight:400">Days per employee · per year</p></div>
+                <button onClick="{{ openAllot }}" style="display:flex;align-items:center;gap:6px;border:1px solid #e6e6e9;cursor:pointer;background:#fff;color:#52555c;font-weight:600;font-size:12.5px;padding:8px 12px;border-radius:10px;flex:none"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4z"></path></svg>Edit</button>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:8px;margin:14px 0 18px;padding-bottom:16px;border-bottom:1px solid #f1f1f3"><span style="font-size:28px;font-weight:600;color:#18181b;letter-spacing:-.8px">{{ totalAnnualDays }}</span><span style="font-size:12.5px;font-weight:500;color:#a1a5ae">days / employee / year</span></div>
+              <div style="display:flex;flex-direction:column;gap:15px">
+                <sc-for list="{{ leaveAllot }}" as="l" hint-placeholder-count="5">
                   <div>
-                    <div style="display:flex;justify-content:space-between;margin-bottom:7px"><span style="font-size:13px;font-weight:500;color:#3f434b">{{ l.type }}</span><span style="font-size:12.5px;font-weight:600;color:#a1a5ae">{{ l.rem }} left</span></div>
-                    <div style="height:9px;border-radius:6px;background:#f1f1f3;overflow:hidden"><div data-bar style="height:100%;width:{{ l.pct }}%;border-radius:6px;background:{{ l.c }}"></div></div>
+                    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px"><span style="font-size:13px;font-weight:600;color:#3f434b">{{ l.type }}</span><span style="font-size:12.5px;font-weight:700;color:#18181b">{{ l.total }} <span style="font-size:11px;font-weight:500;color:#b4b8c0">days</span></span></div>
+                    <div style="height:8px;border-radius:6px;background:#f1f1f3;overflow:hidden"><div data-bar style="height:100%;width:{{ l.pct }}%;border-radius:6px;background:{{ l.c }}"></div></div>
+                    <div style="font-size:11px;font-weight:500;color:#a1a5ae;margin-top:5px">Avg {{ l.usedAvg }} used · {{ l.note }}</div>
                   </div>
                 </sc-for>
               </div>
             </div>
           </section>
+
+          <!-- PER-EMPLOYEE ALLOCATIONS -->
+          <section data-anim style="animation:wsUp .5s cubic-bezier(.4,0,.2,1) both;background:#fff;border:1px solid #ececee;border-radius:20px;overflow:hidden;overflow-x:{{ tScroll }};box-shadow:0 1px 2px rgba(16,24,40,.04)">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:20px 24px;border-bottom:1px solid #ececee">
+              <div><h3 style="margin:0;font-size:16px;font-weight:600;letter-spacing:-.3px">Employee Allocations</h3><p style="margin:4px 0 0;font-size:12.5px;color:#a1a5ae;font-weight:400">Taken / allocated per category · click a name for full breakdown</p></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1.6fr repeat(5,1fr) 0.8fr 88px;gap:12px;padding:13px 24px;background:#fafafb;border-bottom:1px solid #ececee;font-size:11px;font-weight:600;color:#a1a5ae;letter-spacing:.4px;text-transform:uppercase;min-width:820px">
+              <span>Employee</span><span style="text-align:center">Casual</span><span style="text-align:center">Sick</span><span style="text-align:center">Earned</span><span style="text-align:center">Comp</span><span style="text-align:center">WFH</span><span style="text-align:center">Total</span><span></span>
+            </div>
+            <sc-for list="{{ empAllocList }}" as="e" hint-placeholder-count="10">
+              <div style="display:grid;grid-template-columns:1.6fr repeat(5,1fr) 0.8fr 88px;gap:12px;padding:12px 24px;border-bottom:1px solid #f4f4f5;align-items:center;min-width:820px">
+                <div onClick="{{ e.onOpen }}" style="display:flex;align-items:center;gap:11px;min-width:0;cursor:pointer">
+                  <div style="width:34px;height:34px;flex:none;border-radius:10px;background:linear-gradient(180deg,#f4f4f5,#e7e8ec);display:flex;align-items:center;justify-content:center;color:#3f434b;font-weight:600;font-size:12px;border:1px solid #ececef">{{ e.initials }}</div>
+                  <div style="min-width:0"><div style="display:flex;align-items:center;gap:7px"><span style="font-size:13.5px;font-weight:600;color:#18181b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ e.name }}</span><sc-if value="{{ e.customised }}" hint-placeholder-val="{{ false }}"><span style="font-size:9.5px;font-weight:700;color:#b7842f;background:#f7f1e6;border-radius:5px;padding:1px 6px;letter-spacing:.3px;white-space:nowrap">CUSTOM</span></sc-if></div><div style="font-size:11px;font-weight:500;color:#a1a5ae">{{ e.remTotal }} of {{ e.total }} days left</div></div>
+                </div>
+                <sc-for list="{{ e.cats }}" as="c" hint-placeholder-count="5">
+                  <span style="text-align:center;font-size:13px;font-weight:600;color:#18181b">{{ c.used }}<span style="color:#c4c9d3;font-weight:500">/{{ c.val }}</span></span>
+                </sc-for>
+                <span style="text-align:center;font-size:13.5px;font-weight:700;color:#18181b">{{ e.usedTotal }}<span style="color:#c4c9d3;font-weight:500">/{{ e.total }}</span></span>
+                <button onClick="{{ e.onEdit }}" style="border:1px solid #e6e6e9;cursor:pointer;background:#fff;color:#52555c;font-weight:600;font-size:12px;padding:7px 12px;border-radius:9px;justify-self:end">Edit</button>
+              </div>
+            </sc-for>
+          </section>
         </div>
       </sc-if>
-
-      <!-- ATTENDANCE -->
       <sc-if value="{{ showAttendance }}" hint-placeholder-val="{{ true }}">
         <div style="display:flex;flex-direction:column;gap:16px;max-width:1320px;margin:0 auto">
 
@@ -785,6 +827,7 @@
                   <span style="font-size:11.5px;font-weight:500;color:#a1a5ae;padding-left:2px">Attendance · {{ monthLabel }}</span>
                 </div>
               </div>
+              </sc-if>
               <div style="display:flex;background:#f3f3f5;border:1px solid #ececed;border-radius:12px;padding:4px;gap:2px">
                 <button onClick="{{ setCalOverview }}" style="border:none;cursor:pointer;padding:8px 16px;border-radius:9px;font-weight:600;font-size:13px;background:{{ calOverviewBtn }};color:{{ calOverviewFg }};transition:all .18s">Overview</button>
                 <button onClick="{{ setCalMonth }}" style="border:none;cursor:pointer;padding:8px 16px;border-radius:9px;font-weight:600;font-size:13px;background:{{ calMonthBtn }};color:{{ calMonthFg }};transition:all .18s">Month</button>
@@ -800,8 +843,31 @@
               </sc-for>
             </div>
 
+            <!-- OVERVIEW (all employees × days) -->
+            <sc-if value="{{ showCalOverview }}" hint-placeholder-val="{{ true }}">
+              <div style="overflow-x:auto">
+                <div style="min-width:760px">
+                  <div style="display:grid;grid-template-columns:190px repeat(30,1fr) 60px;gap:0;align-items:center;padding:0 0 10px;border-bottom:1px solid #f1f1f3">
+                    <span style="font-size:11px;font-weight:700;color:#b4b8c0;letter-spacing:.4px;text-transform:uppercase">Employee</span>
+                    <sc-for list="{{ monthDayNums }}" as="d" hint-placeholder-count="30"><span style="text-align:center;font-size:10px;font-weight:600;color:{{ d.numFg }}">{{ d.d }}</span></sc-for>
+                    <span style="text-align:right;font-size:11px;font-weight:700;color:#b4b8c0;letter-spacing:.4px;text-transform:uppercase">Rate</span>
+                  </div>
+                  <sc-for list="{{ calOverview }}" as="r" hint-placeholder-count="10">
+                    <div onClick="{{ r.onClick }}" style="display:grid;grid-template-columns:190px repeat(30,1fr) 60px;gap:0;align-items:center;padding:9px 0;border-bottom:1px solid #f6f6f7;cursor:pointer" style-hover="background:#fafbff">
+                      <div style="display:flex;align-items:center;gap:10px;min-width:0;padding-right:10px">
+                        <div style="width:30px;height:30px;flex:none;border-radius:9px;background:linear-gradient(180deg,#f4f4f5,#e7e8ec);display:flex;align-items:center;justify-content:center;color:#3f434b;font-weight:600;font-size:11px;border:1px solid #ececef">{{ r.initials }}</div>
+                        <div style="min-width:0"><div style="font-size:13px;font-weight:600;color:#18181b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.name }}</div><div style="font-size:10.5px;font-weight:500;color:#a1a5ae">{{ r.dept }}</div></div>
+                      </div>
+                      <sc-for list="{{ r.days }}" as="c" hint-placeholder-count="30"><span style="display:flex;justify-content:center"><span style="width:9px;height:9px;border-radius:3px;background:{{ c.dot }}"></span></span></sc-for>
+                      <span style="text-align:right;font-size:12.5px;font-weight:700;color:#18181b">{{ r.pctLabel }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+
             <!-- MONTH -->
-            <sc-if value="{{ showCalMonth }}" hint-placeholder-val="{{ true }}">
+            <sc-if value="{{ showCalMonth }}" hint-placeholder-val="{{ false }}">
               <div>
                 <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:8px">
                   <sc-for list="{{ weekdayHeads }}" as="w" hint-placeholder-count="7"><div style="text-align:center;font-size:11px;font-weight:700;color:#b4b8c0;letter-spacing:.4px;text-transform:uppercase">{{ w }}</div></sc-for>
@@ -845,6 +911,55 @@
                   <div style="background:#f7f7f8;border:1px solid #f0f0f2;border-radius:14px;padding:16px"><div style="font-size:11.5px;font-weight:600;color:#a1a5ae">Total Hours</div><div style="font-size:20px;font-weight:600;color:#18181b;letter-spacing:-.4px;margin-top:6px">{{ calDayDetail.hrs }}</div></div>
                   <div style="background:#f7f7f8;border:1px solid #f0f0f2;border-radius:14px;padding:16px"><div style="font-size:11.5px;font-weight:600;color:#a1a5ae">Status</div><div style="font-size:16px;font-weight:600;color:#18181b;margin-top:8px">{{ calDayDetail.label }}</div></div>
                 </div>
+              </div>
+            </sc-if>
+          </section>
+
+          <!-- ATTENDANCE LIST -->
+          <section data-anim style="animation:wsUp .5s cubic-bezier(.4,0,.2,1) both;background:#fff;border:1px solid #ececee;border-radius:20px;overflow:hidden;overflow-x:{{ tScroll }};box-shadow:0 1px 2px rgba(16,24,40,.04)">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:20px 24px;border-bottom:1px solid #ececee">
+              <div><h3 style="margin:0;font-size:16px;font-weight:600;letter-spacing:-.3px">Attendance Log · {{ calEmpName }}</h3><p style="margin:4px 0 0;font-size:12.5px;color:#a1a5ae;font-weight:400">{{ attListTitle }}</p></div>
+              <div style="display:flex;background:#f3f3f5;border:1px solid #ececed;border-radius:12px;padding:4px;gap:2px">
+                <button onClick="{{ setAlWeek }}" style="border:none;cursor:pointer;padding:8px 16px;border-radius:9px;font-weight:600;font-size:13px;background:{{ alWeekBtn }};color:{{ alWeekFg }};transition:all .18s">Week</button>
+                <button onClick="{{ setAlMonth }}" style="border:none;cursor:pointer;padding:8px 16px;border-radius:9px;font-weight:600;font-size:13px;background:{{ alMonthBtn }};color:{{ alMonthFg }};transition:all .18s">Month</button>
+                <button onClick="{{ setAlYear }}" style="border:none;cursor:pointer;padding:8px 16px;border-radius:9px;font-weight:600;font-size:13px;background:{{ alYearBtn }};color:{{ alYearFg }};transition:all .18s">Year</button>
+              </div>
+            </div>
+
+            <!-- day rows (week/month) -->
+            <sc-if value="{{ showAlDays }}" hint-placeholder-val="{{ true }}">
+              <div>
+                <div style="display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr 1.1fr;gap:12px;padding:13px 24px;background:#fafafb;border-bottom:1px solid #ececee;font-size:11px;font-weight:600;color:#a1a5ae;letter-spacing:.4px;text-transform:uppercase;min-width:{{ tMin }}">
+                  <span>Date</span><span>Check In</span><span>Check Out</span><span>Hours</span><span>Status</span>
+                </div>
+                <sc-for list="{{ alRows }}" as="r" hint-placeholder-count="12">
+                  <div style="display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr 1.1fr;gap:12px;padding:14px 24px;border-bottom:1px solid #f4f4f5;align-items:center;background:{{ r.rowBg }};min-width:{{ tMin }}">
+                    <div style="display:flex;flex-direction:column"><span style="font-size:13.5px;font-weight:600;color:{{ r.nameFg }}">{{ r.dateLabel }}</span><span style="font-size:11px;font-weight:500;color:#b4b8c0">{{ r.dow }}</span></div>
+                    <span style="font-size:13px;font-weight:500;color:#3f434b">{{ r.inT }}</span>
+                    <span style="font-size:13px;font-weight:500;color:#3f434b">{{ r.outT }}</span>
+                    <span style="font-size:13px;font-weight:600;color:#18181b">{{ r.hrs }}</span>
+                    <span><span style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:#52555c;background:#f6f6f7;border:1px solid #ececed;border-radius:8px;padding:4px 9px"><span style="width:6px;height:6px;border-radius:50%;background:{{ r.dot }}"></span>{{ r.statusLabel }}</span></span>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <!-- year summary -->
+            <sc-if value="{{ showAlYear }}" hint-placeholder-val="{{ false }}">
+              <div>
+                <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1fr 0.9fr;gap:12px;padding:13px 24px;background:#fafafb;border-bottom:1px solid #ececee;font-size:11px;font-weight:600;color:#a1a5ae;letter-spacing:.4px;text-transform:uppercase;min-width:{{ tMin }}">
+                  <span>Month</span><span>Present</span><span>Late</span><span>Leave</span><span>Absent</span><span style="text-align:right">Rate</span>
+                </div>
+                <sc-for list="{{ yearList }}" as="m" hint-placeholder-count="12">
+                  <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1fr 0.9fr;gap:12px;padding:14px 24px;border-bottom:1px solid #f4f4f5;align-items:center;background:{{ m.rowBg }};min-width:{{ tMin }}">
+                    <span style="font-size:13.5px;font-weight:600;color:#18181b">{{ m.month }}</span>
+                    <span style="font-size:13px;font-weight:500;color:#3f434b">{{ m.present }}</span>
+                    <span style="font-size:13px;font-weight:500;color:#3f434b">{{ m.late }}</span>
+                    <span style="font-size:13px;font-weight:500;color:#3f434b">{{ m.leave }}</span>
+                    <span style="font-size:13px;font-weight:500;color:#3f434b">{{ m.absent }}</span>
+                    <span style="text-align:right;font-size:13.5px;font-weight:700;color:#18181b">{{ m.pct }}</span>
+                  </div>
+                </sc-for>
               </div>
             </sc-if>
           </section>
@@ -1140,12 +1255,94 @@
 
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px">
           <div style="background:#f7f7f8;border:1px solid #f0f0f2;border-radius:15px;padding:16px"><div style="font-size:11.5px;font-weight:600;color:#a1a5ae">Attendance · June</div><div style="font-size:22px;font-weight:600;color:#18181b;letter-spacing:-.5px;margin-top:6px">95%</div></div>
-          <div style="background:#f7f7f8;border:1px solid #f0f0f2;border-radius:15px;padding:16px"><div style="font-size:11.5px;font-weight:600;color:#a1a5ae">Leave Balance</div><div style="font-size:22px;font-weight:600;color:#18181b;letter-spacing:-.5px;margin-top:6px">12 d</div></div>
+          <div style="background:#f7f7f8;border:1px solid #f0f0f2;border-radius:15px;padding:16px"><div style="font-size:11.5px;font-weight:600;color:#a1a5ae">Leave Remaining</div><div style="font-size:22px;font-weight:600;color:#18181b;letter-spacing:-.5px;margin-top:6px">{{ drawer.leaveRemTotal }} <span style="font-size:12px;font-weight:500;color:#a1a5ae">/ {{ drawer.leaveTotalAll }} d</span></div></div>
         </div>
+
+        <!-- LEAVE BREAKDOWN -->
+        <sc-if value="{{ drawer.hasLeave }}" hint-placeholder-val="{{ true }}">
+          <div style="margin-top:16px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:13px"><span style="font-size:13px;font-weight:700;color:#18181b;letter-spacing:-.2px">Leave Balance</span><span style="font-size:11.5px;font-weight:600;color:#a1a5ae">{{ drawer.leaveUsedTotal }} taken · {{ drawer.leaveRemTotal }} left</span></div>
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <sc-for list="{{ drawer.leave }}" as="l" hint-placeholder-count="5">
+                <div>
+                  <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px">
+                    <span style="font-size:12.5px;font-weight:600;color:#3f434b">{{ l.type }}</span>
+                    <span style="font-size:12.5px;font-weight:600;color:#18181b">{{ l.used }} <span style="color:#b4b8c0;font-weight:500">/ {{ l.total }}</span> <span style="font-size:11px;font-weight:500;color:#a1a5ae">· {{ l.rem }} left</span></span>
+                  </div>
+                  <div style="height:8px;border-radius:6px;background:#f1f1f3;overflow:hidden"><div style="height:100%;width:{{ l.pct }}%;border-radius:6px;background:{{ l.c }}"></div></div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
       </div>
       <div style="flex:none;display:flex;gap:10px;padding:16px 26px;border-top:1px solid #f1f1f3">
         <button onClick="{{ viewFullProfile }}" style="flex:1;border:none;cursor:pointer;background:#18181b;color:#fff;font-weight:600;font-size:13.5px;padding:12px;border-radius:12px">View full profile</button>
         <button onClick="{{ openEditProfile }}" style="border:1px solid #e6e6e9;cursor:pointer;background:#fff;color:#52555c;font-weight:600;font-size:13.5px;padding:12px 16px;border-radius:12px">Edit</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- PER-EMPLOYEE ALLOCATION MODAL -->
+  <sc-if value="{{ empAllotModalOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeEmpAllot }}" style="position:fixed;inset:0;z-index:120;background:rgba(16,24,40,.42);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:20px">
+      <div onClick="{{ stopProp }}" style="width:100%;max-width:480px;background:#fff;border-radius:22px;box-shadow:0 40px 90px -20px rgba(16,24,40,.5);overflow:hidden;animation:wsUp .3s cubic-bezier(.4,0,.2,1) both">
+        <div style="padding:22px 26px 18px;display:flex;align-items:center;gap:13px;border-bottom:1px solid #f1f1f3">
+          <div style="width:44px;height:44px;flex:none;border-radius:13px;background:linear-gradient(180deg,#f4f4f5,#e2e3e7);display:flex;align-items:center;justify-content:center;color:#3f434b;font-weight:600;font-size:15px;border:1px solid #ececef">{{ empAllotInitials }}</div>
+          <div style="flex:1;min-width:0"><h3 style="margin:0;font-size:17px;font-weight:600;letter-spacing:-.4px;color:#18181b">{{ empAllotName }}</h3><p style="margin:3px 0 0;font-size:12.5px;color:#a1a5ae;font-weight:400">Leave allocation · {{ empAllotDept }}</p></div>
+          <button onClick="{{ closeEmpAllot }}" style="border:none;background:#f4f4f5;cursor:pointer;width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#52555c;flex:none"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"></path></svg></button>
+        </div>
+        <div style="padding:18px 26px 4px;display:flex;flex-direction:column;gap:11px">
+          <sc-for list="{{ empAllotDraftRows }}" as="a" hint-placeholder-count="5">
+            <div style="display:flex;align-items:center;gap:13px">
+              <span style="width:9px;height:9px;flex:none;border-radius:50%;background:{{ a.c }}"></span>
+              <div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600;color:#27272a">{{ a.type }}</div><div style="font-size:11px;font-weight:500;color:#b4b8c0">Default {{ a.base }} · {{ a.used }} taken · {{ a.rem }} left</div></div>
+              <div style="display:flex;align-items:center;gap:8px;flex:none">
+                <input value="{{ a.value }}" onInput="{{ a.onInput }}" inputmode="numeric" style="width:70px;border:1px solid #e6e6e9;background:#fafafb;border-radius:11px;padding:10px 12px;font-size:14px;font-weight:600;color:#18181b;outline:none;text-align:center;box-sizing:border-box" />
+                <span style="font-size:12.5px;font-weight:500;color:#a1a5ae;width:34px">days</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 26px 8px;margin-top:8px;border-top:1px solid #f1f1f3">
+          <span style="font-size:13px;font-weight:500;color:#a1a5ae">Total per year</span>
+          <span style="font-size:19px;font-weight:600;color:#18181b;letter-spacing:-.4px">{{ empAllotDraftTotal }} days</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;gap:10px;padding:10px 26px 24px">
+          <button onClick="{{ resetEmpAllot }}" style="border:1px solid #e6e6e9;background:#fff;color:#52555c;cursor:pointer;font-weight:600;font-size:13px;padding:11px 16px;border-radius:12px">Reset to default</button>
+          <div style="display:flex;gap:10px">
+            <button onClick="{{ closeEmpAllot }}" style="border:1px solid #e6e6e9;background:#fff;color:#52555c;cursor:pointer;font-weight:600;font-size:13.5px;padding:11px 18px;border-radius:12px">Cancel</button>
+            <button onClick="{{ saveEmpAllot }}" style="border:none;background:#18181b;color:#fff;cursor:pointer;font-weight:600;font-size:13.5px;padding:11px 20px;border-radius:12px">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- MODAL -->
+  <sc-if value="{{ allotModalOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeAllot }}" style="position:fixed;inset:0;z-index:120;background:rgba(16,24,40,.42);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:20px">
+      <div onClick="{{ stopProp }}" style="width:100%;max-width:460px;background:#fff;border-radius:22px;box-shadow:0 40px 90px -20px rgba(16,24,40,.5);overflow:hidden;animation:wsUp .3s cubic-bezier(.4,0,.2,1) both">
+        <div style="padding:24px 26px 0;display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+          <div><h3 style="margin:0;font-size:18px;font-weight:600;letter-spacing:-.4px;color:#18181b">Edit Annual Allocation</h3><p style="margin:5px 0 0;font-size:13px;color:#a1a5ae;font-weight:400">Days granted per employee each year</p></div>
+          <button onClick="{{ closeAllot }}" style="border:none;background:#f4f4f5;cursor:pointer;width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#52555c;flex:none"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"></path></svg></button>
+        </div>
+        <div style="padding:20px 26px 4px;display:flex;flex-direction:column;gap:12px">
+          <sc-for list="{{ allotDraftRows }}" as="a" hint-placeholder-count="5">
+            <div style="display:flex;align-items:center;gap:13px">
+              <span style="width:9px;height:9px;flex:none;border-radius:50%;background:{{ a.c }}"></span>
+              <label style="flex:1;font-size:14px;font-weight:600;color:#27272a">{{ a.type }}</label>
+              <div style="display:flex;align-items:center;gap:8px;flex:none">
+                <input value="{{ a.value }}" onInput="{{ a.onInput }}" inputmode="numeric" style="width:70px;border:1px solid #e6e6e9;background:#fafafb;border-radius:11px;padding:10px 12px;font-size:14px;font-weight:600;color:#18181b;outline:none;text-align:center;box-sizing:border-box" />
+                <span style="font-size:12.5px;font-weight:500;color:#a1a5ae;width:34px">days</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex;justify-content:flex-end;gap:10px;padding:18px 26px 24px">
+          <button onClick="{{ closeAllot }}" style="border:1px solid #e6e6e9;background:#fff;color:#52555c;cursor:pointer;font-weight:600;font-size:13.5px;padding:11px 18px;border-radius:12px">Cancel</button>
+          <button onClick="{{ saveAllot }}" style="border:none;background:#18181b;color:#fff;cursor:pointer;font-weight:600;font-size:13.5px;padding:11px 20px;border-radius:12px">Save allocation</button>
+        </div>
       </div>
     </div>
   </sc-if>
@@ -1186,7 +1383,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:&quot;100%&quot;},&quot;defaultExpanded&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;showClock&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
 class Component extends DCLogic {
-  state = { mode: 'admin', menuOpen: false, drawerOpen: false, empDrawer: null, vw: 1280, screen: 'dashboard', expanded: null, view: 'card', selected: 0, dept: 'All', ptab: 'overview', calEmp: 0, calView: 'overview', calDay: 27, modal: null, toast: null, form: {}, empEdits: {}, breakOn: false, checkedOut: false, logText: '', worklog: [ {id:1,text:'Statutory audit — Sunrise Textiles',done:true},{id:2,text:'Review Q1 tax filing — Horizon Pharma',done:false},{id:3,text:'1:1 with Rohan Gupta',done:false} ] };
+  state = { mode: 'admin', menuOpen: false, drawerOpen: false, empDrawer: null, vw: 1280, screen: 'dashboard', expanded: null, view: 'card', selected: 0, dept: 'All', ptab: 'overview', calEmp: 0, calView: 'overview', calDay: 27, attListPeriod: 'month', leaveFilter: 'Pending', leaveDecisions: {}, allotEdits: {}, allotModal: null, allotDraft: {}, empAllotEdits: {}, empAllotModal: null, empAllotDraft: {}, modal: null, toast: null, form: {}, empEdits: {}, breakOn: false, checkedOut: false, logText: '', worklog: [ {id:1,text:'Statutory audit — Sunrise Textiles',done:true},{id:2,text:'Review Q1 tax filing — Horizon Pharma',done:false},{id:3,text:'1:1 with Rohan Gupta',done:false} ] };
   _worked = 0;
 
   EMP = [
@@ -1221,6 +1418,14 @@ class Component extends DCLogic {
     ['documents','Documents','M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6'],
   ];
 
+  LEAVE_ALLOT = [
+    { type:'Casual Leave', total:12, used:412, c:'#18181b', note:'Personal / short notice' },
+    { type:'Sick Leave', total:8, used:286, c:'#52555c', note:'Medical, with certificate >2d' },
+    { type:'Earned Leave', total:15, used:531, c:'#7c818b', note:'Accrues monthly, carries over' },
+    { type:'Comp Off', total:4, used:73, c:'#9aa0a9', note:'Against approved extra hours' },
+    { type:'Work From Home', total:24, used:158, c:'#b4b8c0', note:'Remote working days' },
+  ];
+
   PAYSLIPS = [
     { month:'June 2026', net:'₹ 80,960', gross:'₹ 92,000', status:'Processing', dot:'#c79a3a' },
     { month:'May 2026', net:'₹ 80,960', gross:'₹ 92,000', status:'Paid', dot:'#2c8c63' },
@@ -1238,6 +1443,20 @@ class Component extends DCLogic {
   closeDrawer = () => this.setState({ drawerOpen:false });
   openEmpDrawer = (rec) => { const full = this.EMP.find(e => e.name === rec.name); this.setState({ empDrawer: { ...rec, ...(full||{}) }, menuOpen:false }); };
   closeEmpDrawer = () => this.setState({ empDrawer:null });
+  setLeaveFilter = (f) => this.setState({ leaveFilter:f });
+  decideLeave = (id, decision) => this.setState(s => ({ leaveDecisions:{ ...s.leaveDecisions, [id]:decision } }), () => this._toast(decision==='Approved' ? 'Leave approved' : 'Leave rejected'));
+  openAllot = (idx) => { const cur = this.LEAVE_ALLOT.map((a,i) => (this.state.allotEdits[i] ?? a.total)); this.setState({ allotModal:true, allotDraft: cur.reduce((o,v,i)=>(o[i]=String(v),o),{}) }); };
+  setAllotDraft = (i, v) => this.setState(s => ({ allotDraft:{ ...s.allotDraft, [i]: v.replace(/[^0-9]/g,'') } }));
+  saveAllot = () => this.setState(s => { const e={...s.allotEdits}; Object.keys(s.allotDraft).forEach(i=>{ const n=parseInt(s.allotDraft[i],10); if(!isNaN(n)) e[i]=n; }); return { allotEdits:e, allotModal:null }; }, () => this._toast('Annual allocation updated'));
+  closeAllot = () => this.setState({ allotModal:null });
+  _baseAllot = (i) => this.state.allotEdits[i] ?? this.LEAVE_ALLOT[i].total;
+  _effAllot = (empId, i) => { const o=this.state.empAllotEdits[empId]; return (o && o[i]!=null) ? o[i] : this._baseAllot(i); };
+  _leaveUsed = (empId, i) => { const idx=Math.max(0,this.EMP.findIndex(e=>e.id===empId)); const total=this._effAllot(empId,i); const raw=(idx*3 + i*7 + 2) % (total+1); return Math.min(raw, total); };
+  openEmpAllot = (empId) => { const draft = {}; this.LEAVE_ALLOT.forEach((a,i)=>{ draft[i] = String(this._effAllot(empId, i)); }); this.setState({ empAllotModal: empId, empAllotDraft: draft }); };
+  setEmpAllotDraft = (i, v) => this.setState(s => ({ empAllotDraft:{ ...s.empAllotDraft, [i]: v.replace(/[^0-9]/g,'') } }));
+  resetEmpAllot = () => { const draft={}; this.LEAVE_ALLOT.forEach((a,i)=>{ draft[i]=String(this._baseAllot(i)); }); this.setState({ empAllotDraft: draft }); };
+  saveEmpAllot = () => this.setState(s => { const empId=s.empAllotModal; const ov={}; this.LEAVE_ALLOT.forEach((a,i)=>{ const n=parseInt(s.empAllotDraft[i],10); const base=this._baseAllot(i); if(!isNaN(n) && n!==base) ov[i]=n; }); const e={...s.empAllotEdits}; if(Object.keys(ov).length) e[empId]=ov; else delete e[empId]; return { empAllotEdits:e, empAllotModal:null }; }, () => this._toast('Employee allocation updated'));
+  closeEmpAllot = () => this.setState({ empAllotModal:null });
   viewFullProfile = () => { const d=this.state.empDrawer; const idx=this.EMP.findIndex(e=>e.name===(d&&d.name)); this.setState({ selected: idx>=0?idx:this.state.selected, screen:'profile', empDrawer:null }); };
   _toast = (text) => { this.setState({ toast:{ text } }); clearTimeout(this._toastT); this._toastT = setTimeout(()=>this.setState({ toast:null }), 2600); };
   openModal = (type) => {
@@ -1355,21 +1574,44 @@ class Component extends DCLogic {
     ];
 
     // ---- LEAVE ----
-    const leaveStats = [
-      { label:'Pending Requests', value:'6', sub:'Need your action', iconPath:'M12 6v6l4 2M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20z' },
-      { label:'On Leave Today', value:'4', sub:'Across 3 teams', iconPath:'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8' },
-      { label:'Approved (June)', value:'38', sub:'Requests', iconPath:'M22 11.08V12a10 10 0 1 1-5.93-9.14M22 4L12 14.01l-3-3' },
-      { label:'Avg Balance', value:'11.4 d', sub:'Per employee', iconPath:'M3 7h18M8 3v4M16 3v4M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z' },
+
+    const dotFor = (st) => st==='Approved' ? '#2c8c63' : st==='Rejected' ? '#c0413a' : '#c79a3a';
+    const LEAVE_REQS = [
+      { id:'LR-2041', name:'Ananya Iyer', initials:'AI', dept:'Compliance', type:'Sick Leave', range:'Jun 20 – Jun 22', days:'3 days', reason:'Medical rest advised', applied:'Jun 18', base:'Pending' },
+      { id:'LR-2042', name:'Vivaan Rao', initials:'VR', dept:'Taxation', type:'Casual Leave', range:'Jun 24', days:'1 day', reason:'Personal work', applied:'Jun 19', base:'Pending' },
+      { id:'LR-2043', name:'Meera Joshi', initials:'MJ', dept:'Finance', type:'Earned Leave', range:'Jul 01 – Jul 05', days:'5 days', reason:'Family vacation', applied:'Jun 17', base:'Pending' },
+      { id:'LR-2044', name:'Ishaan Verma', initials:'IV', dept:'Taxation', type:'Casual Leave', range:'Jun 26', days:'1 day', reason:'Exam', applied:'Jun 20', base:'Pending' },
+      { id:'LR-2045', name:'Saanvi Patel', initials:'SP', dept:'People', type:'Work From Home', range:'Jun 25 – Jun 27', days:'3 days', reason:'Home repairs', applied:'Jun 20', base:'Pending' },
+      { id:'LR-2046', name:'Arjun Reddy', initials:'AR', dept:'Technology', type:'Sick Leave', range:'Jun 23', days:'1 day', reason:'Fever', applied:'Jun 22', base:'Pending' },
+      { id:'LR-2039', name:'Kabir Nair', initials:'KN', dept:'Audit', type:'Casual Leave', range:'Jun 12', days:'1 day', reason:'Personal', applied:'Jun 08', base:'Approved' },
+      { id:'LR-2038', name:'Diya Sharma', initials:'DS', dept:'Taxation', type:'Work From Home', range:'Jun 09 – Jun 10', days:'2 days', reason:'Client remote work', applied:'Jun 05', base:'Approved' },
+      { id:'LR-2035', name:'Aarav Mehta', initials:'AM', dept:'Audit', type:'Earned Leave', range:'May 28 – May 30', days:'3 days', reason:'Travel', applied:'May 22', base:'Approved' },
+      { id:'LR-2031', name:'Rohan Gupta', initials:'RG', dept:'Audit', type:'Sick Leave', range:'Jun 03', days:'1 day', reason:'No certificate provided', applied:'Jun 03', base:'Rejected' },
     ];
-    const leaveReqs = [
-      { name:'Ananya Iyer', initials:'AI', type:'Sick Leave', range:'Jun 20 – Jun 22', days:'3 days', status:'Pending', dot:'#c79a3a' },
-      { name:'Vivaan Rao', initials:'VR', type:'Casual Leave', range:'Jun 24', days:'1 day', status:'Pending', dot:'#c79a3a' },
-      { name:'Meera Joshi', initials:'MJ', type:'Earned Leave', range:'Jul 01 – Jul 05', days:'5 days', status:'Pending', dot:'#c79a3a' },
-      { name:'Kabir Nair', initials:'KN', type:'Casual Leave', range:'Jun 12', days:'1 day', status:'Approved', dot:'#2c8c63' },
-      { name:'Diya Sharma', initials:'DS', type:'Work From Home', range:'Jun 09 – Jun 10', days:'2 days', status:'Approved', dot:'#2c8c63' },
-      { name:'Rohan Gupta', initials:'RG', type:'Sick Leave', range:'Jun 03', days:'1 day', status:'Rejected', dot:'#c0413a' },
-    ];
-    const leaveTypes = [ {type:'Casual Leave',used:4,total:12,c:'#18181b'},{type:'Sick Leave',used:2,total:8,c:'#52555c'},{type:'Earned Leave',used:3,total:15,c:'#7c818b'},{type:'Comp Off',used:1,total:4,c:'#9aa0a9'} ].map(l=>({...l,pct:Math.round(l.used/l.total*100),rem:l.total-l.used}));
+    const allReqs = LEAVE_REQS.map(r => { const status = this.state.leaveDecisions[r.id] || r.base; return { ...r, status, dot:dotFor(status) }; });
+    const lf = this.state.leaveFilter || 'Pending';
+    const leaveReqs = (lf==='All' ? allReqs : allReqs.filter(r=>r.status===lf)).map(r => ({ ...r, isPending: r.status==='Pending', onApprove:()=>this.decideLeave(r.id,'Approved'), onReject:()=>this.decideLeave(r.id,'Rejected'), onOpen:()=>this.openEmpDrawer(r) }));
+    const leaveCounts = { Pending: allReqs.filter(r=>r.status==='Pending').length, Approved: allReqs.filter(r=>r.status==='Approved').length, Rejected: allReqs.filter(r=>r.status==='Rejected').length, All: allReqs.length };
+    const leaveFilters = ['Pending','Approved','Rejected','All'].map(f => ({ key:f, label:f, count:leaveCounts[f], active:f===lf, bg:f===lf?'#18181b':'#fff', fg:f===lf?'#fff':'#52555c', bd:f===lf?'#18181b':'#e6e6e9', cbg:f===lf?'rgba(255,255,255,.2)':'#f4f4f5', cfg:f===lf?'#fff':'#a1a5ae', onClick:()=>this.setLeaveFilter(f) }));
+
+    const N_EMP = this.EMP.length;
+    const leaveAllot = this.LEAVE_ALLOT.map((a,i) => { const total = this.state.allotEdits[i] ?? a.total; const usedAvg = Math.round((a.used / N_EMP) * 10) / 10; const pct = Math.min(100, Math.round((usedAvg/total)*100)); return { ...a, total, usedAvg, pct, poolUsed:a.used, poolTotal: total*N_EMP }; });
+    const allotDraftRows = this.LEAVE_ALLOT.map((a,i) => ({ i, type:a.type, c:a.c, value: this.state.allotDraft[i] ?? String(this.state.allotEdits[i] ?? a.total), onInput:(e)=>this.setAllotDraft(i, e.target.value) }));
+    const totalAnnualDays = leaveAllot.reduce((s,a)=>s+a.total,0);
+    // per-employee allocations (HR view)
+    const empAllocList = this.EMP.map((e0) => {
+      const e = withEdits(e0);
+      const cats = this.LEAVE_ALLOT.map((a,i) => { const val=this._effAllot(e.id, i); const used=this._leaveUsed(e.id,i); return { short:a.type.replace(' Leave','').replace('Work From Home','WFH'), val, used, rem: val-used, custom: !!(this.state.empAllotEdits[e.id] && this.state.empAllotEdits[e.id][i]!=null) }; });
+      const total = cats.reduce((s,c)=>s+c.val,0);
+      const usedTotal = cats.reduce((s,c)=>s+c.used,0);
+      const customised = !!(this.state.empAllotEdits[e.id] && Object.keys(this.state.empAllotEdits[e.id]).length);
+      return { id:e.id, name:e.name, initials:e.initials, dept:e.dept, cats, total, usedTotal, remTotal: total-usedTotal, customised, onEdit:()=>this.openEmpAllot(e.id), onOpen:()=>this.openEmpDrawer(e) };
+    });
+    const empAllotId = this.state.empAllotModal;
+    const empAllotRec = empAllotId ? withEdits(this.EMP.find(e=>e.id===empAllotId) || this.EMP[0]) : null;
+    const empAllotDraftRows = this.LEAVE_ALLOT.map((a,i) => { const used=empAllotId?this._leaveUsed(empAllotId,i):0; const eff=this._effAllot(empAllotId||'',i); return { i, type:a.type, c:a.c, base:this._baseAllot(i), used, rem: eff-used, value: this.state.empAllotDraft[i] ?? String(this._effAllot(empAllotId, i)), onInput:(e)=>this.setEmpAllotDraft(i, e.target.value) }; });
+    const empAllotDraftTotal = this.LEAVE_ALLOT.reduce((s,a,i)=>{ const n=parseInt(this.state.empAllotDraft[i],10); return s + (isNaN(n)?0:n); }, 0);
+    const leaveTypes = leaveAllot.slice(0,4).map(l=>({ type:l.type, total:l.total, used:Math.round(l.usedAvg), c:l.c, pct:l.pct, rem:Math.max(0, l.total-Math.round(l.usedAvg)) }));
 
     // ---- ATTENDANCE ----
     const attStats2 = [
@@ -1408,6 +1650,15 @@ class Component extends DCLogic {
     const calStats = [ {label:'Present',value:cnt.Present,dot:'#2c8c63'},{label:'Late',value:cnt.Late,dot:'#c79a3a'},{label:'Leave',value:cnt.Leave,dot:'#6b7a8f'},{label:'Absent',value:cnt.Absent,dot:'#c0413a'} ];
     const monthDayNums = []; for(let d=1;d<=30;d++) monthDayNums.push({ d, today:d===27, numFg:[0,6].includes(new Date(2026,5,d).getDay())?'#d0d3da':(d===27?'#18181b':'#9aa0a9') });
     const calOverview = this.EMP.map((e0,idx) => { const e=withEdits(e0); let p=0; const days=[]; for(let d=1;d<=30;d++){ const st=statusFor(idx,d); const m=stMeta[st]; if(st==='Present')p++; days.push({ key:'o'+idx+'_'+d, dot:m.dot, today:d===27 }); } return { idx, name:e.name, initials:e.initials, dept:e.dept, present:p, pctLabel:Math.round(p/20*100)+'%', days, onClick:()=>this.setState({ calEmp:idx, calView:'month' }) }; });
+
+    // ---- ATTENDANCE LIST (week / month / year) ----
+    const alp = this.state.attListPeriod || 'month';
+    const MONTHS_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const listRow = (d) => { const date=new Date(2026,5,d); const st=statusFor(ci,d); const m=stMeta[st]; const t=times(st,d); const muted=(st==='Weekend'||st==='Upcoming'); return { key:'lr'+d, dateLabel:date.toLocaleDateString('en-US',{month:'short',day:'numeric'}), dow:DOW[(date.getDay()+6)%7], inT:t.inT, outT:t.outT, hrs:t.hrs, statusLabel:m.label, dot:m.dot, rowBg:d===27?'#fafbff':'#fff', nameFg:muted?'#b4b8c0':'#18181b' }; };
+    const monthList = []; for(let d=1;d<=30;d++) monthList.push(listRow(d));
+    const weekList = []; for(let i=0;i<7;i++){ const d=weekStartDay+i; if(d>=1&&d<=30) weekList.push(listRow(d)); }
+    const yearList = MONTHS_FULL.map((mn,mi) => { const present=17+((mi*5)%5), late=(mi*2)%4, leave=mi%3, absent=(mi%4===0)?0:1; const tot=present+late+leave+absent; return { key:'yl'+mi, month:mn, present, late, leave, absent, pct:Math.round((present+late)/tot*100)+'%', current:mi===5, rowBg:mi===5?'#fafbff':'#fff' }; });
+    const attListTitle = { week:'This Week', month:'June 2026', year:'2026 · Monthly Summary' }[alp];
 
     // ---- DOCUMENTS ----
     const docStats = [
@@ -1497,11 +1748,16 @@ class Component extends DCLogic {
 
     const _wire = (arr) => arr.map(x => ({ ...x, onOpen:()=>this.openEmpDrawer(x) }));
     const dr = this.state.empDrawer;
+    const drEmp = dr ? (this.EMP.find(e => e.name === dr.name) || null) : null;
+    const drLeave = drEmp ? this.LEAVE_ALLOT.map((a,i) => { const total=this._effAllot(drEmp.id,i); const used=this._leaveUsed(drEmp.id,i); const rem=total-used; return { type:a.type, used, total, rem, pct: Math.round((used/total)*100), c:a.c }; }) : [];
+    const drLeaveTotals = drLeave.reduce((o,l)=>({ total:o.total+l.total, used:o.used+l.used, rem:o.rem+l.rem }), {total:0,used:0,rem:0});
     const drawer = dr ? {
       name: dr.name, initials: dr.initials || (dr.name||'?').split(' ').map(w=>w[0]).join('').slice(0,2), desig: dr.desig || dr.type || '—', dept: dr.dept || '—',
       status: dr.status || 'Active', statusDot: statusDot(dr.status || 'Active'),
       rows: [ ['Employee ID', dr.id||'—'],['Department', dr.dept||'—'],['Designation', dr.desig||'—'],['Reporting Manager', dr.mgr||'—'],['Branch', dr.branch||'—'],['Employment Type', dr.type||'—'],['Email', dr.email||'—'] ].map(([k,v])=>({k,v})),
       hasEmail: !!dr.email, email: dr.email || '',
+      leave: drLeave, hasLeave: drLeave.length>0,
+      leaveRemTotal: drLeaveTotals.rem, leaveUsedTotal: drLeaveTotals.used, leaveTotalAll: drLeaveTotals.total,
     } : null;
 
     const h = new Date().getHours();
@@ -1550,7 +1806,20 @@ class Component extends DCLogic {
       showPayroll: !isEmp && screen === 'payroll', showLeave: !isEmp && screen === 'leave', showAttendance: !isEmp && screen === 'attendance',
       showDocuments: !isEmp && screen === 'documents', showReports: !isEmp && screen === 'reports', showSecurity: !isEmp && screen === 'security',
       showEmpAttendance: isEmp && screen === 'attendance', showEmpLeave: isEmp && screen === 'leave', showEmpPayslips: isEmp && screen === 'payroll', showEmpDocs: isEmp && screen === 'documents',
-      payStats, payroll, leaveStats, leaveReqs, leaveTypes, attStats2, attRows, attWeek,
+      payStats, payroll, leaveReqs, leaveTypes, attStats2, attRows, attWeek,
+      leaveStats: [
+        { label:'Pending Requests', value:String(leaveCounts.Pending), sub:'Need your action', iconPath:'M12 6v6l4 2M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20z' },
+        { label:'On Leave Today', value:'4', sub:'Across 3 teams', iconPath:'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8' },
+        { label:'Approved (June)', value:String(leaveCounts.Approved), sub:'This month', iconPath:'M22 11.08V12a10 10 0 1 1-5.93-9.14M22 4L12 14.01l-3-3' },
+        { label:'Annual / Employee', value:totalAnnualDays+' d', sub:'Across all types', iconPath:'M3 7h18M8 3v4M16 3v4M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z' },
+      ],
+      leaveFilters, leaveCount: leaveReqs.length, leaveScopeLabel: lf==='All' ? 'All requests · all employees' : lf+' · all employees',
+      leaveAllot, totalAnnualDays, empCount: N_EMP,
+      openAllot: ()=>this.openAllot(),
+      allotModalOpen: !!this.state.allotModal, allotDraftRows, closeAllot: this.closeAllot, saveAllot: this.saveAllot, stopProp: (e)=>e.stopPropagation(),
+      empAllocList,
+      empAllotModalOpen: !!this.state.empAllotModal, empAllotName: empAllotRec ? empAllotRec.name : '', empAllotInitials: empAllotRec ? empAllotRec.initials : '', empAllotDept: empAllotRec ? empAllotRec.dept : '',
+      empAllotDraftRows, empAllotDraftTotal, closeEmpAllot: this.closeEmpAllot, saveEmpAllot: this.saveEmpAllot, resetEmpAllot: this.resetEmpAllot,
       // calendar
       calEmpList, calEmpName: calEmpRec.name, calEmpInitials: calEmpRec.initials,
       setCalEmp: (e)=>this.setState({ calEmp: parseInt(e.target.value,10), calView: this.state.calView==='overview'?'month':this.state.calView }),
@@ -1562,6 +1831,14 @@ class Component extends DCLogic {
       showCalOverview: cv==='overview', showCalMonth: cv==='month', showCalWeek: cv==='week', showCalDay: cv==='day',
       showEmpPicker: cv!=='overview',
       monthCells, calWeek, calDayDetail, calStats, calOverview, monthDayNums, weekdayHeads: DOW, monthLabel: 'June 2026', calEmpVal: ci,
+      // attendance list
+      attListTitle, monthList, weekList, yearList,
+      alWeekBtn: alp==='week'?'#18181b':'transparent', alWeekFg: alp==='week'?'#fff':'#52555c',
+      alMonthBtn: alp==='month'?'#18181b':'transparent', alMonthFg: alp==='month'?'#fff':'#52555c',
+      alYearBtn: alp==='year'?'#18181b':'transparent', alYearFg: alp==='year'?'#fff':'#52555c',
+      setAlWeek: ()=>this.setState({attListPeriod:'week'}), setAlMonth: ()=>this.setState({attListPeriod:'month'}), setAlYear: ()=>this.setState({attListPeriod:'year'}),
+      showAlWeek: alp==='week', showAlMonth: alp==='month', showAlYear: alp==='year', showAlDays: alp!=='year',
+      alRows: alp==='week'?weekList:monthList,
       docStats, docFolders, docRecent, reportKpis, reportBars, reportList, secStats, roles, auditLog,
       payslips: this.PAYSLIPS, myLeaveReqs: leaveReqs.filter(r=>['Kabir Nair'].includes(r.name)||r.dot==='#c79a3a').slice(0,4),
       showComingSoon: !builtScreens.includes(screen),
