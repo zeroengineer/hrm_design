@@ -333,6 +333,84 @@
         </div>
       </sc-if>
 
+      <!-- STRUCTURE: BRANCHES & DEPARTMENTS -->
+      <sc-if value="{{ showStructure }}" hint-placeholder-val="{{ false }}">
+        <div data-screen-label="Branches & Departments" style="display:flex;flex-direction:column;gap:18px;max-width:1320px;margin:0 auto">
+
+          <section data-anim style="animation:wsUp .5s cubic-bezier(.4,0,.2,1) both;display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap">
+            <div>
+              <h1 style="margin:0;font-size:24px;font-weight:600;letter-spacing:-.6px;color:#18181b">Branches &amp; Departments</h1>
+              <p style="margin:6px 0 0;font-size:14px;font-weight:400;color:#7c818b">Manage the firm's locations and organisational units.</p>
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
+              <button onClick="{{ openAddDept }}" style="border:1px solid #e6e6e9;cursor:pointer;background:#fff;color:#27272a;font-weight:600;font-size:13.5px;padding:11px 17px;border-radius:12px">Add Department</button>
+              <button onClick="{{ openAddBranch }}" style="display:flex;align-items:center;gap:7px;border:none;cursor:pointer;background:#18181b;color:#fff;font-weight:600;font-size:13.5px;padding:11px 17px;border-radius:12px;box-shadow:0 2px 6px rgba(24,24,27,.22)"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>Add Branch</button>
+            </div>
+          </section>
+
+          <section data-anim style="animation:wsUp .5s cubic-bezier(.4,0,.2,1) both;display:grid;grid-template-columns:{{ col_1_1 }};gap:16px;align-items:stretch">
+            <sc-for list="{{ structBranches }}" as="b" hint-placeholder-count="4">
+              <div onClick="{{ b.onSelect }}" style="cursor:pointer;background:#fff;border:1px solid {{ b.bd }};border-radius:20px;padding:22px;box-shadow:{{ b.sh }};display:flex;flex-direction:column;gap:15px;transition:border-color .15s,box-shadow .15s" style-hover="border-color:#d6d8dd">
+                <div style="display:flex;align-items:flex-start;gap:14px">
+                  <div style="width:44px;height:44px;flex:none;border-radius:13px;background:#f4f4f5;display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="#27272a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11zM12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path></svg></div>
+                  <div style="flex:1;min-width:0">
+                    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span style="font-size:15.5px;font-weight:600;color:#18181b">{{ b.name }}</span><span style="font-size:10px;font-weight:600;color:{{ b.tagFg }};background:{{ b.tagBg }};border-radius:6px;padding:2px 7px">{{ b.tag }}</span></div>
+                    <div style="font-size:12.5px;font-weight:400;color:#a1a5ae;margin-top:3px">{{ b.city }}</div>
+                  </div>
+                  <div style="display:flex;gap:7px;flex:none">
+                    <button onClick="{{ b.onEdit }}" title="Edit branch" style="border:1px solid #e6e6e9;background:#fff;cursor:pointer;width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#7c818b" style-hover="color:#18181b;border-color:#d6d8dd"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"></path></svg></button>
+                    <button onClick="{{ b.onDelete }}" title="Delete branch" style="border:1px solid #e6e6e9;background:#fff;cursor:pointer;width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#7c818b" style-hover="color:#c0413a;border-color:#e6c9c7;background:#fbf6f5"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6"></path></svg></button>
+                  </div>
+                </div>
+                <div style="display:flex;gap:28px;padding-top:14px;border-top:1px solid #f3f3f5">
+                  <div><div style="font-size:17px;font-weight:600;letter-spacing:-.3px;color:#18181b">{{ b.staff }}</div><div style="font-size:11.5px;font-weight:500;color:#b4b8c0;margin-top:2px">Staff</div></div>
+                  <div><div style="font-size:17px;font-weight:600;letter-spacing:-.3px;color:#18181b">{{ b.deptN }}</div><div style="font-size:11.5px;font-weight:500;color:#b4b8c0;margin-top:2px">Departments</div></div>
+                  <div style="min-width:0"><div style="font-size:17px;font-weight:600;letter-spacing:-.3px;color:#18181b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ b.head }}</div><div style="font-size:11.5px;font-weight:500;color:#b4b8c0;margin-top:2px">Branch head</div></div>
+                </div>
+                <div style="font-size:12px;font-weight:400;color:#a1a5ae">{{ b.deptNames }}</div>
+              </div>
+            </sc-for>
+          </section>
+
+          <section data-anim style="animation:wsUp .5s cubic-bezier(.4,0,.2,1) both;background:#fff;border:1px solid #ececee;border-radius:20px;overflow:hidden;overflow-x:{{ tScroll }};box-shadow:0 1px 2px rgba(16,24,40,.04)">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:20px 24px;border-bottom:1px solid #ececee">
+              <div><h3 style="margin:0;font-size:16px;font-weight:600;letter-spacing:-.3px">Departments</h3><p style="margin:5px 0 0;font-size:12.5px;color:#a1a5ae;font-weight:400">{{ structCount }} · select a branch card to filter</p></div>
+              <div style="display:flex;gap:4px;background:#f4f4f5;border-radius:12px;padding:4px;flex-wrap:wrap">
+                <sc-for list="{{ structTabs }}" as="t" hint-placeholder-count="5">
+                  <button onClick="{{ t.onClick }}" style="border:none;cursor:pointer;background:{{ t.bg }};color:{{ t.fg }};box-shadow:{{ t.sh }};font-weight:600;font-size:12.5px;padding:7px 13px;border-radius:9px;transition:all .15s">{{ t.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1.8fr 1.3fr 1.8fr .8fr 1.5fr 64px;gap:12px;min-width:{{ tMin }};padding:13px 24px;background:#fafafb;border-bottom:1px solid #ececee;font-size:11px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;color:#a1a5ae">
+              <span>Department</span><span>Head</span><span>Branches</span><span>Teams</span><span>Headcount</span><span></span>
+            </div>
+            <sc-for list="{{ structDepts }}" as="u" hint-placeholder-count="6">
+              <div style="display:grid;grid-template-columns:1.8fr 1.3fr 1.8fr .8fr 1.5fr 64px;gap:12px;min-width:{{ tMin }};padding:14px 24px;border-bottom:1px solid #f4f4f5;align-items:center;transition:background .15s" style-hover="background:#fafbfc">
+                <div style="display:flex;align-items:center;gap:12px;min-width:0">
+                  <div style="width:38px;height:38px;flex:none;border-radius:11px;background:linear-gradient(180deg,#f4f4f5,#e7e8ec);display:flex;align-items:center;justify-content:center;color:#3f434b;font-weight:600;font-size:12.5px;border:1px solid #ececef">{{ u.initials }}</div>
+                  <span style="font-size:14px;font-weight:600;color:#18181b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ u.name }}</span>
+                </div>
+                <span style="font-size:13px;font-weight:500;color:#3f434b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ u.head }}</span>
+                <div style="display:flex;gap:6px;flex-wrap:wrap">
+                  <sc-for list="{{ u.chips }}" as="c" hint-placeholder-count="2">
+                    <span style="font-size:11px;font-weight:600;color:#52555c;background:#f4f4f5;border-radius:7px;padding:3px 9px;white-space:nowrap">{{ c }}</span>
+                  </sc-for>
+                </div>
+                <span style="font-size:13px;font-weight:500;color:#7c818b">{{ u.teams }}</span>
+                <div style="display:flex;align-items:center;gap:10px">
+                  <span style="font-size:13.5px;font-weight:600;color:#18181b;width:26px;flex:none">{{ u.staff }}</span>
+                  <div style="flex:1;max-width:120px;height:6px;border-radius:6px;background:#f1f1f3;overflow:hidden"><div style="height:100%;width:{{ u.pct }};border-radius:6px;background:#3f434b"></div></div>
+                </div>
+                <div style="display:flex;gap:7px;justify-self:end">
+                  <button onClick="{{ u.onEdit }}" title="Edit department" style="border:1px solid #e6e6e9;background:#fff;cursor:pointer;width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#7c818b" style-hover="color:#18181b;border-color:#d6d8dd"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"></path></svg></button>
+                  <button onClick="{{ u.onDelete }}" title="Delete department" style="border:1px solid #e6e6e9;background:#fff;cursor:pointer;width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#7c818b" style-hover="color:#c0413a;border-color:#e6c9c7;background:#fbf6f5"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6"></path></svg></button>
+                </div>
+              </div>
+            </sc-for>
+          </section>
+        </div>
+      </sc-if>
+
       <!-- EMPLOYEE DASHBOARD -->
       <sc-if value="{{ showEmpDash }}" hint-placeholder-val="{{ true }}">
         <div style="display:flex;flex-direction:column;gap:18px;max-width:1320px;margin:0 auto">
@@ -1371,6 +1449,21 @@
     </div>
   </sc-if>
 
+  <!-- CONFIRM DELETE -->
+  <sc-if value="{{ confirmOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ cancelDelete }}" style="position:fixed;inset:0;z-index:125;background:rgba(16,24,40,.42);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:20px">
+      <div onClick="{{ stopProp }}" style="width:100%;max-width:420px;background:#fff;border-radius:22px;box-shadow:0 40px 90px -20px rgba(16,24,40,.5);overflow:hidden;animation:wsUp .3s cubic-bezier(.4,0,.2,1) both;padding:26px">
+        <div style="width:46px;height:46px;border-radius:14px;background:#fbf6f5;display:flex;align-items:center;justify-content:center;margin-bottom:16px"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#c0413a" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6"></path></svg></div>
+        <h3 style="margin:0;font-size:17px;font-weight:600;letter-spacing:-.4px;color:#18181b">{{ confirmTitle }}</h3>
+        <p style="margin:8px 0 0;font-size:13.5px;color:#7c818b;font-weight:400;line-height:1.55">{{ confirmSub }}</p>
+        <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:22px">
+          <button onClick="{{ cancelDelete }}" style="border:1px solid #e6e6e9;background:#fff;color:#52555c;cursor:pointer;font-weight:600;font-size:13.5px;padding:11px 18px;border-radius:12px">Cancel</button>
+          <button onClick="{{ confirmDelete }}" style="border:none;background:#c0413a;color:#fff;cursor:pointer;font-weight:600;font-size:13.5px;padding:11px 20px;border-radius:12px;box-shadow:0 2px 6px rgba(192,65,58,.3)">Delete</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
   <!-- TOAST -->
   <sc-if value="{{ toastShow }}" hint-placeholder-val="{{ false }}">
     <div style="position:fixed;left:50%;bottom:30px;transform:translateX(-50%);z-index:130;display:flex;align-items:center;gap:11px;background:#18181b;color:#fff;padding:13px 18px;border-radius:14px;box-shadow:0 18px 44px -12px rgba(16,24,40,.5);animation:wsUp .3s cubic-bezier(.4,0,.2,1) both">
@@ -1383,8 +1476,25 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:&quot;100%&quot;},&quot;defaultExpanded&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;showClock&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
 class Component extends DCLogic {
-  state = { mode: 'admin', menuOpen: false, drawerOpen: false, empDrawer: null, vw: 1280, screen: 'dashboard', expanded: null, view: 'card', selected: 0, dept: 'All', ptab: 'overview', calEmp: 0, calView: 'overview', calDay: 27, attListPeriod: 'month', leaveFilter: 'Pending', leaveDecisions: {}, allotEdits: {}, allotModal: null, allotDraft: {}, empAllotEdits: {}, empAllotModal: null, empAllotDraft: {}, modal: null, toast: null, form: {}, empEdits: {}, breakOn: false, checkedOut: false, logText: '', worklog: [ {id:1,text:'Statutory audit — Sunrise Textiles',done:true},{id:2,text:'Review Q1 tax filing — Horizon Pharma',done:false},{id:3,text:'1:1 with Rohan Gupta',done:false} ] };
+  state = { mode: 'admin', menuOpen: false, drawerOpen: false, empDrawer: null, vw: 1280, screen: 'dashboard', expanded: null, view: 'card', selected: 0, dept: 'All', ptab: 'overview', calEmp: 0, calView: 'overview', structTab: 'All', branchList: null, deptList: null, editKey: null, confirmDel: null, calDay: 27, attListPeriod: 'month', leaveFilter: 'Pending', leaveDecisions: {}, allotEdits: {}, allotModal: null, allotDraft: {}, empAllotEdits: {}, empAllotModal: null, empAllotDraft: {}, modal: null, toast: null, form: {}, empEdits: {}, breakOn: false, checkedOut: false, logText: '', worklog: [ {id:1,text:'Statutory audit — Sunrise Textiles',done:true},{id:2,text:'Review Q1 tax filing — Horizon Pharma',done:false},{id:3,text:'1:1 with Rohan Gupta',done:false} ] };
   _worked = 0;
+
+  BRANCH_SEED = [
+    { name:'Mumbai HQ', city:'Maharashtra · India', head:'R. P. Daga', staff:118, tag:'Headquarters', tagBg:'#18181b', tagFg:'#fff' },
+    { name:'Pune', city:'Maharashtra · India', head:'Kabir Nair', staff:46, tag:'Branch', tagBg:'#f4f4f5', tagFg:'#52555c' },
+    { name:'Delhi', city:'NCR · India', head:'Diya Sharma', staff:52, tag:'Branch', tagBg:'#f4f4f5', tagFg:'#52555c' },
+    { name:'Bengaluru', city:'Karnataka · India', head:'Arjun Reddy', staff:32, tag:'New', tagBg:'#f7f1e6', tagFg:'#b7842f' },
+  ];
+  DEPT_SEED = [
+    { name:'Audit', head:'Aarav Mehta', initials:'AM', staff:64, teams:'4 teams', brs:['Mumbai HQ','Pune'] },
+    { name:'Taxation', head:'Diya Sharma', initials:'DS', staff:52, teams:'3 teams', brs:['Mumbai HQ','Delhi','Bengaluru'] },
+    { name:'Compliance', head:'Ananya Iyer', initials:'AI', staff:38, teams:'2 teams', brs:['Mumbai HQ'] },
+    { name:'Finance', head:'Meera Joshi', initials:'MJ', staff:29, teams:'2 teams', brs:['Mumbai HQ','Delhi'] },
+    { name:'People', head:'Saanvi Patel', initials:'SP', staff:18, teams:'1 team', brs:['Mumbai HQ'] },
+    { name:'Technology', head:'Arjun Reddy', initials:'AR', staff:14, teams:'1 team', brs:['Bengaluru'] },
+  ];
+  _branches = () => this.state.branchList || this.BRANCH_SEED;
+  _depts = () => this.state.deptList || this.DEPT_SEED;
 
   EMP = [
     { id:'RPD-1042', name:'Aarav Mehta', desig:'Audit Partner', dept:'Audit', mgr:'R. P. Daga', status:'Active', type:'Full-time', branch:'Mumbai HQ', email:'aarav.mehta@rpdaga.in', initials:'AM' },
@@ -1465,6 +1575,23 @@ class Component extends DCLogic {
     this.setState({ modal:type, form, menuOpen:false, drawerOpen:false });
   };
   closeModal = () => this.setState({ modal:null });
+  openEditBranch = (b) => this.setState({ modal:'editBranch', editKey:b.name, form:{ name:b.name, city:b.city, head:b.head }, menuOpen:false });
+  openEditDept = (u) => this.setState({ modal:'editDept', editKey:u.name, form:{ name:u.name, head:u.head, teams:u.teams, branches:(u.brs||[]).join(', ') }, menuOpen:false });
+  askDelete = (kind, name) => this.setState({ confirmDel:{ kind, name } });
+  cancelDelete = () => this.setState({ confirmDel:null });
+  confirmDelete = () => {
+    const { kind, name } = this.state.confirmDel || {};
+    if (kind === 'branch') {
+      this.setState(s => ({
+        branchList: this._branches().filter(b => b.name !== name),
+        deptList: this._depts().map(d => ({ ...d, brs: (d.brs||[]).filter(x => x !== name) })),
+        structTab: s.structTab === name ? 'All' : s.structTab,
+        confirmDel: null,
+      }), () => this._toast('Branch deleted'));
+    } else {
+      this.setState({ deptList: this._depts().filter(d => d.name !== name), confirmDel: null }, () => this._toast('Department deleted'));
+    }
+  };
   setForm = (k, v) => this.setState(s => ({ form:{ ...s.form, [k]:v } }));
   submitModal = () => {
     if (this.state.modal === 'editProfile') {
@@ -1472,7 +1599,35 @@ class Component extends DCLogic {
       this.setState(s => ({ empEdits:{ ...s.empEdits, [id]:{ ...(s.empEdits[id]||{}), ...s.form } }, modal:null }), () => this._toast('Profile updated'));
       return;
     }
-    const msg = ({ addEmployee:'Employee record created', addDept:'Department added', addBranch:'Branch added', applyLeave:'Leave request submitted', upload:'Document uploaded' })[this.state.modal] || 'Saved';
+    const m = this.state.modal, f = this.state.form;
+    if (m === 'addBranch' || m === 'editBranch') {
+      const rec = { name:(f.name||'New Branch').trim(), city:f.city||'—', head:f.head||'—' };
+      if (m === 'addBranch') {
+        this.setState({ branchList:[...this._branches(), { ...rec, staff:0, tag:'New', tagBg:'#f7f1e6', tagFg:'#b7842f' }], modal:null }, () => this._toast('Branch "' + rec.name + '" created'));
+      } else {
+        const key = this.state.editKey;
+        this.setState(s => ({
+          branchList: this._branches().map(b => b.name === key ? { ...b, ...rec } : b),
+          deptList: this._depts().map(d => ({ ...d, brs:(d.brs||[]).map(x => x === key ? rec.name : x) })),
+          structTab: s.structTab === key ? rec.name : s.structTab,
+          modal: null,
+        }), () => this._toast('Branch updated'));
+      }
+      return;
+    }
+    if (m === 'addDept' || m === 'editDept') {
+      const brs = (f.branches||'').split(',').map(x => x.trim()).filter(Boolean);
+      const rec = { name:(f.name||'New Department').trim(), head:f.head||'—', teams:f.teams||'1 team' };
+      rec.initials = rec.name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+      if (m === 'addDept') {
+        this.setState({ deptList:[...this._depts(), { ...rec, staff:0, brs: brs.length ? brs : ['Mumbai HQ'] }], modal:null }, () => this._toast('Department "' + rec.name + '" created'));
+      } else {
+        const key = this.state.editKey;
+        this.setState({ deptList: this._depts().map(d => d.name === key ? { ...d, ...rec, brs: brs.length ? brs : d.brs } : d), modal:null }, () => this._toast('Department updated'));
+      }
+      return;
+    }
+    const msg = ({ addEmployee:'Employee record created', applyLeave:'Leave request submitted', upload:'Document uploaded' })[this.state.modal] || 'Saved';
     this.setState({ modal:null }, () => this._toast(msg));
   };
   _onResize = () => { const w = (this.rootEl && this.rootEl.clientWidth) || window.innerWidth; if (Math.abs(w - this.state.vw) > 4) this.setState({ vw: w }); };
@@ -1493,8 +1648,9 @@ class Component extends DCLogic {
       reports:'M3 3v18h18M7 16v-5M12 16V8M17 16v-8',
       notifications:'M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0',
       security:'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',
+      structure:'M3 21h18M5 21V7l8-4v18M19 21V11l-6-4M9 9h1M9 13h1M9 17h1',
     };
-    const NAV_ADMIN = [ ['dashboard','Organisation'],['directory','Employees'],['attendance','Attendance'],['leave','Leave'],['payroll','Payroll'],['documents','Documents'],['reports','Reports'],['security','Security'] ];
+    const NAV_ADMIN = [ ['dashboard','Organisation'],['directory','Employees'],['structure','Structure'],['attendance','Attendance'],['leave','Leave'],['payroll','Payroll'],['documents','Documents'],['reports','Reports'],['security','Security'] ];
     const NAV_EMP = [ ['dashboard','Home','home'],['attendance','Attendance'],['leave','Leave'],['payroll','Payslips'],['documents','Documents'] ];
     const navSrc = isEmp ? NAV_EMP : NAV_ADMIN;
     const nav = navSrc.map(([key,label,iconKey]) => {
@@ -1713,21 +1869,9 @@ class Component extends DCLogic {
     ];
 
 
-    // ---- ORGANISATION ----
-    const branches = [
-      { name:'Mumbai HQ', city:'Maharashtra · India', head:'R. P. Daga', staff:118, tag:'Headquarters', tagBg:'#18181b', tagFg:'#fff' },
-      { name:'Pune', city:'Maharashtra · India', head:'Kabir Nair', staff:46, tag:'Branch', tagBg:'#f4f4f5', tagFg:'#52555c' },
-      { name:'Delhi', city:'NCR · India', head:'Diya Sharma', staff:52, tag:'Branch', tagBg:'#f4f4f5', tagFg:'#52555c' },
-      { name:'Bengaluru', city:'Karnataka · India', head:'Arjun Reddy', staff:32, tag:'New', tagBg:'#f7f1e6', tagFg:'#b7842f' },
-    ];
-    const orgUnits = [
-      { name:'Audit', head:'Aarav Mehta', initials:'AM', staff:64, teams:'4 teams' },
-      { name:'Taxation', head:'Diya Sharma', initials:'DS', staff:52, teams:'3 teams' },
-      { name:'Compliance', head:'Ananya Iyer', initials:'AI', staff:38, teams:'2 teams' },
-      { name:'Finance', head:'Meera Joshi', initials:'MJ', staff:29, teams:'2 teams' },
-      { name:'People', head:'Saanvi Patel', initials:'SP', staff:18, teams:'1 team' },
-      { name:'Technology', head:'Arjun Reddy', initials:'AR', staff:14, teams:'1 team' },
-    ];
+    // ---- ORGANISATION (live CRUD state) ----
+    const branches = this._branches();
+    const orgUnits = this._depts();
     const orgHeads = [
       { name:'Aarav Mehta', initials:'AM', role:'Audit', staff:64 },
       { name:'Diya Sharma', initials:'DS', role:'Taxation', staff:52 },
@@ -1735,13 +1879,28 @@ class Component extends DCLogic {
       { name:'Saanvi Patel', initials:'SP', role:'People', staff:18 },
     ];
 
+    // ---- STRUCTURE PAGE (Branches & Departments) ----
+    const structTab = this.state.structTab || 'All';
+    const structTabs = ['All', ...branches.map(b=>b.name)].map(t => ({ label:t, bg: t===structTab?'#fff':'transparent', fg: t===structTab?'#18181b':'#9aa0a9', sh: t===structTab?'0 1px 3px rgba(16,24,40,.1)':'none', onClick:()=>this.setState({ structTab:t }) }));
+    const structBranches = branches.map(b => {
+      const depts = orgUnits.filter(u => (u.brs||[]).includes(b.name));
+      const active = structTab === b.name;
+      return { ...b, deptN: depts.length, deptNames: depts.map(d=>d.name).join(' · '), bd: active?'#18181b':'#ececee', sh: active?'0 0 0 1px #18181b, 0 1px 2px rgba(16,24,40,.04)':'0 1px 2px rgba(16,24,40,.04)',
+        onSelect:()=>this.setState({ structTab: active?'All':b.name }), onEdit:(e)=>{ e.stopPropagation(); this.openEditBranch(b); }, onDelete:(e)=>{ e.stopPropagation(); this.askDelete('branch', b.name); } };
+    });
+    const maxUnitStaff = Math.max(1, ...orgUnits.map(u=>u.staff));
+    const structDepts = orgUnits.filter(u => structTab==='All' || (u.brs||[]).includes(structTab)).map(u => ({ ...u, chips:(u.brs||[]), pct: Math.round(u.staff/maxUnitStaff*100)+'%', onEdit:()=>this.openEditDept(u), onDelete:()=>this.askDelete('dept', u.name) }));
+    const structCount = structDepts.length + (structDepts.length===1?' unit':' units') + (structTab==='All' ? ' across all branches' : ' at ' + structTab);
+
     const MODALS = {
       editProfile:{ title:'Edit Profile', sub:'Update personal & contact details', primary:'Save changes', fields:[['name','Full name'],['desig','Designation'],['dept','Department'],['branch','Branch'],['email','Work email','wide']] },
       addEmployee:{ title:'Add Employee', sub:'Create a new staff record', primary:'Create employee', fields:[['name','Full name'],['desig','Designation'],['dept','Department'],['branch','Branch'],['email','Work email','wide']] },
-      addDept:{ title:'Add Department', sub:'Define a new department', primary:'Add department', fields:[['name','Department name'],['head','Department head'],['teams','Number of teams']] },
+      addDept:{ title:'Add Department', sub:'Define a new department', primary:'Add department', fields:[['name','Department name'],['head','Department head'],['teams','Teams (e.g. 2 teams)'],['branches','Branches (comma separated)','wide']] },
       addBranch:{ title:'Add Branch', sub:'Register a new office location', primary:'Add branch', fields:[['name','Branch name'],['city','City / region'],['head','Branch head']] },
       applyLeave:{ title:'Apply for Leave', sub:'Submit a new leave request', primary:'Submit request', fields:[['type','Leave type'],['from','From date'],['to','To date'],['reason','Reason','wide']] },
       upload:{ title:'Upload Document', sub:'Add a file to the vault', primary:'Upload file', fields:[['name','Document name'],['cat','Category']] },
+      editDept:{ title:'Edit Department', sub:'Update unit details', primary:'Save changes', fields:[['name','Department name'],['head','Department head'],['teams','Teams'],['branches','Branches (comma separated)','wide']] },
+      editBranch:{ title:'Edit Branch', sub:'Update branch details', primary:'Save changes', fields:[['name','Branch name'],['city','Location'],['head','Branch head']] },
     };
     const mcfg = MODALS[this.state.modal] || { title:'', sub:'', primary:'Save', fields:[] };
     const modalFields = mcfg.fields.map(([key,label,wide]) => ({ key, label, wide: wide ? '1 / -1' : 'auto', value:this.state.form[key]||'', onInput:(e)=>this.setForm(key, e.target.value) }));
@@ -1845,6 +2004,11 @@ class Component extends DCLogic {
       showClock: this.props.showClock !== false,
       todayLabel: new Date().toLocaleDateString('en-US',{ weekday:'long', month:'long', day:'numeric' }),
       greeting, hrStats, departments, newJoiners, branches, orgUnits, orgHeads,
+      showStructure: !isEmp && screen === 'structure', structTabs, structBranches, structDepts, structCount,
+      confirmOpen: !!this.state.confirmDel,
+      confirmTitle: this.state.confirmDel ? ('Delete ' + (this.state.confirmDel.kind==='branch'?'branch':'department') + ' "' + this.state.confirmDel.name + '"?') : '',
+      confirmSub: this.state.confirmDel ? (this.state.confirmDel.kind==='branch' ? 'The branch will be removed and unlinked from all departments. This cannot be undone.' : 'The department will be removed from the organisation structure. This cannot be undone.') : '',
+      confirmDelete: this.confirmDelete, cancelDelete: this.cancelDelete,
       // modals + toast
       modalOpen: !!this.state.modal, modalTitle: mcfg.title, modalSub: mcfg.sub, modalPrimary: mcfg.primary, modalFields,
       closeModal: this.closeModal, submitModal: this.submitModal, stopProp: (e)=>e.stopPropagation(),
@@ -1867,7 +2031,7 @@ class Component extends DCLogic {
       tSettings: ()=>this._toast('Account settings opened'),
       tSignOut: ()=>this._toast('Signing out…'),
       tFolder: ()=>this._toast('Opening folder…'),
-      viewAllDepts: ()=>this.setState({ screen:'directory' }),
+      viewAllDepts: ()=>this.setState({ screen:'structure' }),
       reportKpis: reportKpis.map(k=>({ ...k, trendBg: k.up?'#eef5f1':'#f7eeee', trendFg: k.up?'#2c8c63':'#c0413a', arrow: k.up?'M7 17L17 7M9 7h8v8':'M7 7l10 10M17 9v8H9' })),
       view: this.state.view,
       setCard: ()=>this.setState({view:'card'}), setTable: ()=>this.setState({view:'table'}),
