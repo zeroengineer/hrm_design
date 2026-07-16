@@ -529,6 +529,11 @@
       <sc-if value="{{ showDirectory }}" hint-placeholder-val="{{ true }}">
         <div style="display:flex;flex-direction:column;gap:18px;max-width:1320px;margin:0 auto">
           <section data-anim style="animation:wsUp .5s cubic-bezier(.4,0,.2,1) both;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+            <div style="display:flex;gap:4px;background:#f4f4f5;border-radius:12px;padding:4px">
+              <sc-for list="{{ dirTabs }}" as="t" hint-placeholder-count="2">
+                <button onClick="{{ t.onClick }}" style="display:flex;align-items:center;gap:7px;border:none;cursor:pointer;background:{{ t.bg }};color:{{ t.fg }};box-shadow:{{ t.sh }};font-weight:600;font-size:13px;padding:8px 15px;border-radius:9px;transition:all .15s">{{ t.label }}<sc-if value="{{ t.hasBadge }}" hint-placeholder-val="{{ false }}"><span style="min-width:18px;height:18px;border-radius:9px;background:#18181b;color:#fff;font-size:10.5px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;padding:0 5px">{{ t.badge }}</span></sc-if></button>
+              </sc-for>
+            </div>
             <div style="display:flex;gap:8px;flex-wrap:wrap;flex:1">
               <sc-for list="{{ deptChips }}" as="c" hint-placeholder-count="7">
                 <button onClick="{{ c.onClick }}" style="border:1px solid {{ c.bd }};cursor:pointer;background:{{ c.bg }};color:{{ c.fg }};font-weight:600;font-size:13px;padding:8px 15px;border-radius:11px;transition:all .18s">{{ c.name }}</button>
@@ -543,6 +548,39 @@
               </button>
             </div>
           </section>
+
+          <sc-if value="{{ dirTabInvites }}" hint-placeholder-val="{{ false }}">
+            <section data-anim style="animation:wsUp .5s cubic-bezier(.4,0,.2,1) both;background:#fff;border:1px solid #ececee;border-radius:18px;overflow:hidden;overflow-x:{{ tScroll }};box-shadow:0 1px 2px rgba(16,24,40,.04)">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:20px 22px;border-bottom:1px solid #ececee">
+                <div><h3 style="margin:0;font-size:16px;font-weight:600;letter-spacing:-.3px">Onboarding Invites</h3><p style="margin:5px 0 0;font-size:12.5px;color:#a1a5ae;font-weight:400">{{ inviteCount }}</p></div>
+                <button onClick="{{ openAddEmployee }}" style="display:flex;align-items:center;gap:7px;border:none;cursor:pointer;background:#18181b;color:#fff;font-weight:600;font-size:13px;padding:10px 15px;border-radius:11px"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>Invite Employee</button>
+              </div>
+              <div style="display:grid;grid-template-columns:2.3fr 1.4fr 1fr .9fr 1.7fr 168px;gap:12px;min-width:{{ tMin }};padding:13px 22px;background:#fafafb;border-bottom:1px solid #ececee;font-size:11px;font-weight:600;color:#a1a5ae;letter-spacing:.4px;text-transform:uppercase">
+                <span>Candidate</span><span>Designation</span><span>Department</span><span>Invited</span><span>Status</span><span></span>
+              </div>
+              <sc-for list="{{ inviteRows }}" as="i" hint-placeholder-count="4">
+                <div style="display:grid;grid-template-columns:2.3fr 1.4fr 1fr .9fr 1.7fr 168px;gap:12px;min-width:{{ tMin }};padding:14px 22px;border-bottom:1px solid #f4f4f5;align-items:center;transition:background .15s" style-hover="background:#fafbfc">
+                  <div style="display:flex;align-items:center;gap:12px;min-width:0">
+                    <div style="width:38px;height:38px;flex:none;border-radius:11px;background:linear-gradient(180deg,#f4f4f5,#e7e8ec);display:flex;align-items:center;justify-content:center;color:#3f434b;font-weight:600;font-size:13px;border:1px solid #ececef">{{ i.initials }}</div>
+                    <div style="min-width:0"><div style="font-size:13.5px;font-weight:600;color:#18181b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ i.name }}</div><div style="font-size:11.5px;font-weight:500;color:#b4b8c0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ i.email }}</div></div>
+                  </div>
+                  <span style="font-size:13px;font-weight:500;color:#3f434b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ i.desig }}</span>
+                  <span style="font-size:13px;font-weight:500;color:#7c818b">{{ i.dept }}</span>
+                  <span style="font-size:12.5px;font-weight:500;color:#a1a5ae">{{ i.sent }}</span>
+                  <span><span style="display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:600;color:{{ i.fg }};background:{{ i.bg }};border:1px solid {{ i.bd }};border-radius:8px;padding:5px 10px"><span style="width:6px;height:6px;border-radius:50%;background:{{ i.dot }}"></span>{{ i.label }}</span></span>
+                  <div style="display:flex;gap:7px;justify-content:flex-end">
+                    <sc-if value="{{ i.isSubmitted }}" hint-placeholder-val="{{ false }}">
+                      <button onClick="{{ i.onApprove }}" style="border:none;cursor:pointer;background:#18181b;color:#fff;font-weight:600;font-size:12px;padding:8px 14px;border-radius:9px">Accept</button>
+                      <button onClick="{{ i.onReject }}" style="border:1px solid #e6e6e9;cursor:pointer;background:#fff;color:#c0413a;font-weight:600;font-size:12px;padding:8px 14px;border-radius:9px" style-hover="border-color:#e6c9c7;background:#fbf6f5">Reject</button>
+                    </sc-if>
+                    <sc-if value="{{ i.isInvited }}" hint-placeholder-val="{{ false }}">
+                      <button onClick="{{ i.onResend }}" style="border:1px solid #e6e6e9;cursor:pointer;background:#fff;color:#52555c;font-weight:600;font-size:12px;padding:8px 14px;border-radius:9px" style-hover="border-color:#d6d8dd;color:#18181b">Resend invite</button>
+                    </sc-if>
+                  </div>
+                </div>
+              </sc-for>
+            </section>
+          </sc-if>
 
           <sc-if value="{{ showCards }}" hint-placeholder-val="{{ true }}">
             <section style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px">
@@ -559,7 +597,6 @@
                   </div>
                   <div style="display:flex;flex-direction:column;gap:9px;padding-top:15px;border-top:1px solid #f3f3f5">
                     <div style="display:flex;justify-content:space-between"><span style="font-size:12.5px;color:#a1a5ae;font-weight:400">Department</span><span style="font-size:12.5px;color:#3f434b;font-weight:600">{{ e.dept }}</span></div>
-                    <div style="display:flex;justify-content:space-between"><span style="font-size:12.5px;color:#a1a5ae;font-weight:400">Reports to</span><span style="font-size:12.5px;color:#3f434b;font-weight:600">{{ e.mgr }}</span></div>
                     <div style="display:flex;justify-content:space-between"><span style="font-size:12.5px;color:#a1a5ae;font-weight:400">Branch</span><span style="font-size:12.5px;color:#3f434b;font-weight:600">{{ e.branch }}</span></div>
                   </div>
                 </div>
@@ -569,18 +606,17 @@
 
           <sc-if value="{{ showTable }}" hint-placeholder-val="{{ true }}">
             <section data-anim style="animation:wsUp .5s cubic-bezier(.4,0,.2,1) both;background:#fff;border:1px solid #ececee;border-radius:18px;overflow:hidden;overflow-x:{{ tScroll }};box-shadow:0 1px 2px rgba(16,24,40,.04)">
-              <div style="display:grid;grid-template-columns:2.2fr 1.4fr 1fr 1.2fr 1fr 70px;gap:12px;min-width:{{ tMin }};padding:15px 22px;background:#fafafb;border-bottom:1px solid #ececee;font-size:11px;font-weight:600;color:#a1a5ae;letter-spacing:.4px;text-transform:uppercase">
-                <span>Employee</span><span>Designation</span><span>Department</span><span>Reporting</span><span>Status</span><span></span>
+              <div style="display:grid;grid-template-columns:2.2fr 1.6fr 1.3fr 1.2fr 70px;gap:12px;min-width:{{ tMin }};padding:15px 22px;background:#fafafb;border-bottom:1px solid #ececee;font-size:11px;font-weight:600;color:#a1a5ae;letter-spacing:.4px;text-transform:uppercase">
+                <span>Employee</span><span>Designation</span><span>Department</span><span>Status</span><span></span>
               </div>
               <sc-for list="{{ empList }}" as="e" hint-placeholder-count="8">
-                <div onClick="{{ e.onOpen }}" style="display:grid;grid-template-columns:2.2fr 1.4fr 1fr 1.2fr 1fr 70px;gap:12px;min-width:{{ tMin }};padding:14px 22px;border-bottom:1px solid #f4f4f5;align-items:center;cursor:pointer;transition:background .15s" style-hover="background:#fafafb">
+                <div onClick="{{ e.onOpen }}" style="display:grid;grid-template-columns:2.2fr 1.6fr 1.3fr 1.2fr 70px;gap:12px;min-width:{{ tMin }};padding:14px 22px;border-bottom:1px solid #f4f4f5;align-items:center;cursor:pointer;transition:background .15s" style-hover="background:#fafafb">
                   <div style="display:flex;align-items:center;gap:12px;min-width:0">
                     <div style="width:38px;height:38px;flex:none;border-radius:11px;background:linear-gradient(180deg,#f4f4f5,#e7e8ec);display:flex;align-items:center;justify-content:center;color:#3f434b;font-weight:600;font-size:13px;border:1px solid #ececef">{{ e.initials }}</div>
                     <div style="min-width:0"><div style="font-size:13.5px;font-weight:600;color:#18181b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ e.name }}</div><div style="font-size:11.5px;font-weight:500;color:#b4b8c0">{{ e.id }}</div></div>
                   </div>
                   <span style="font-size:13px;font-weight:500;color:#3f434b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ e.desig }}</span>
                   <span style="font-size:13px;font-weight:500;color:#7c818b">{{ e.dept }}</span>
-                  <span style="font-size:13px;font-weight:500;color:#7c818b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ e.mgr }}</span>
                   <span><span style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:#52555c;background:#f6f6f7;border:1px solid #ececed;border-radius:8px;padding:4px 9px"><span style="width:6px;height:6px;border-radius:50%;background:{{ e.statusDot }}"></span>{{ e.status }}</span></span>
                   <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#c9ccd3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg>
                 </div>
@@ -1476,7 +1512,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:&quot;100%&quot;},&quot;defaultExpanded&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;showClock&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
 class Component extends DCLogic {
-  state = { mode: 'admin', menuOpen: false, drawerOpen: false, empDrawer: null, vw: 1280, screen: 'dashboard', expanded: null, view: 'card', selected: 0, dept: 'All', ptab: 'overview', calEmp: 0, calView: 'overview', structTab: 'All', branchList: null, deptList: null, editKey: null, confirmDel: null, calDay: 27, attListPeriod: 'month', leaveFilter: 'Pending', leaveDecisions: {}, allotEdits: {}, allotModal: null, allotDraft: {}, empAllotEdits: {}, empAllotModal: null, empAllotDraft: {}, modal: null, toast: null, form: {}, empEdits: {}, breakOn: false, checkedOut: false, logText: '', worklog: [ {id:1,text:'Statutory audit — Sunrise Textiles',done:true},{id:2,text:'Review Q1 tax filing — Horizon Pharma',done:false},{id:3,text:'1:1 with Rohan Gupta',done:false} ] };
+  state = { mode: 'admin', menuOpen: false, drawerOpen: false, empDrawer: null, vw: 1280, screen: 'dashboard', expanded: null, view: 'card', selected: 0, dept: 'All', ptab: 'overview', calEmp: 0, calView: 'overview', structTab: 'All', branchList: null, deptList: null, editKey: null, confirmDel: null, dirTab: 'employees', inviteList: null, calDay: 27, attListPeriod: 'month', leaveFilter: 'Pending', leaveDecisions: {}, allotEdits: {}, allotModal: null, allotDraft: {}, empAllotEdits: {}, empAllotModal: null, empAllotDraft: {}, modal: null, toast: null, form: {}, empEdits: {}, breakOn: false, checkedOut: false, logText: '', worklog: [ {id:1,text:'Statutory audit — Sunrise Textiles',done:true},{id:2,text:'Review Q1 tax filing — Horizon Pharma',done:false},{id:3,text:'1:1 with Rohan Gupta',done:false} ] };
   _worked = 0;
 
   BRANCH_SEED = [
@@ -1493,6 +1529,14 @@ class Component extends DCLogic {
     { name:'People', head:'Saanvi Patel', initials:'SP', staff:18, teams:'1 team', brs:['Mumbai HQ'] },
     { name:'Technology', head:'Arjun Reddy', initials:'AR', staff:14, teams:'1 team', brs:['Bengaluru'] },
   ];
+  INVITE_SEED = [
+    { name:'Nikhil Bansal', email:'nikhil.b@rpdaga.in', desig:'Audit Associate', dept:'Audit', sent:'Jul 14', stage:'submitted' },
+    { name:'Priya Menon', email:'priya.menon@rpdaga.in', desig:'Tax Associate', dept:'Taxation', sent:'Jul 12', stage:'invited' },
+    { name:'Ishaan Kulkarni', email:'ishaan.k@rpdaga.in', desig:'Article Assistant', dept:'Audit', sent:'Jul 10', stage:'submitted' },
+    { name:'Rahul Verma', email:'rahul.v@rpdaga.in', desig:'Compliance Analyst', dept:'Compliance', sent:'Jul 6', stage:'approved' },
+  ];
+  _invites = () => this.state.inviteList || this.INVITE_SEED;
+  _setInviteStage = (email, stage, msg) => this.setState({ inviteList: this._invites().map(i => i.email === email ? { ...i, stage } : i) }, () => this._toast(msg));
   _branches = () => this.state.branchList || this.BRANCH_SEED;
   _depts = () => this.state.deptList || this.DEPT_SEED;
 
@@ -1625,6 +1669,14 @@ class Component extends DCLogic {
         const key = this.state.editKey;
         this.setState({ deptList: this._depts().map(d => d.name === key ? { ...d, ...rec, brs: brs.length ? brs : d.brs } : d), modal:null }, () => this._toast('Department updated'));
       }
+      return;
+    }
+    if (m === 'addEmployee') {
+      const name = (f.name||'New Candidate').trim();
+      this.setState({
+        inviteList: [{ name, email: f.email || (name.toLowerCase().split(' ')[0] + '@rpdaga.in'), desig: f.desig||'—', dept: f.dept||'—', sent:'Jul 16', stage:'invited' }, ...this._invites()],
+        modal: null, dirTab: 'invites', screen: 'directory',
+      }, () => this._toast('Invite sent to ' + name));
       return;
     }
     const msg = ({ addEmployee:'Employee record created', applyLeave:'Leave request submitted', upload:'Document uploaded' })[this.state.modal] || 'Saved';
@@ -1894,7 +1946,7 @@ class Component extends DCLogic {
 
     const MODALS = {
       editProfile:{ title:'Edit Profile', sub:'Update personal & contact details', primary:'Save changes', fields:[['name','Full name'],['desig','Designation'],['dept','Department'],['branch','Branch'],['email','Work email','wide']] },
-      addEmployee:{ title:'Add Employee', sub:'Create a new staff record', primary:'Create employee', fields:[['name','Full name'],['desig','Designation'],['dept','Department'],['branch','Branch'],['email','Work email','wide']] },
+      addEmployee:{ title:'Invite Employee', sub:'Enter details and send an onboarding invite', primary:'Send invite', fields:[['name','Full name'],['email','Work email'],['desig','Designation'],['dept','Department'],['branch','Branch']] },
       addDept:{ title:'Add Department', sub:'Define a new department', primary:'Add department', fields:[['name','Department name'],['head','Department head'],['teams','Teams (e.g. 2 teams)'],['branches','Branches (comma separated)','wide']] },
       addBranch:{ title:'Add Branch', sub:'Register a new office location', primary:'Add branch', fields:[['name','Branch name'],['city','City / region'],['head','Branch head']] },
       applyLeave:{ title:'Apply for Leave', sub:'Submit a new leave request', primary:'Submit request', fields:[['type','Leave type'],['from','From date'],['to','To date'],['reason','Reason','wide']] },
@@ -2037,8 +2089,28 @@ class Component extends DCLogic {
       setCard: ()=>this.setState({view:'card'}), setTable: ()=>this.setState({view:'table'}),
       cardBtnBg: this.state.view==='card'?'#fff':'transparent', cardBtnFg: this.state.view==='card'?'#18181b':'#9aa0a9', cardBtnSh: this.state.view==='card'?'0 1px 3px rgba(16,24,40,.1)':'none',
       tableBtnBg: this.state.view==='table'?'#fff':'transparent', tableBtnFg: this.state.view==='table'?'#18181b':'#9aa0a9', tableBtnSh: this.state.view==='table'?'0 1px 3px rgba(16,24,40,.1)':'none',
-      showCards: this.state.view==='card', showTable: this.state.view==='table',
+      showCards: this.state.view==='card' && (this.state.dirTab||'employees')==='employees', showTable: this.state.view==='table' && (this.state.dirTab||'employees')==='employees',
       deptChips, empList, emp, dirCount: empList.length,
+      dirTabEmployees: (this.state.dirTab||'employees') === 'employees',
+      dirTabInvites: this.state.dirTab === 'invites',
+      dirTabs: [
+        { label:'Employees', badge:'', active:(this.state.dirTab||'employees')==='employees', onClick:()=>this.setState({ dirTab:'employees' }) },
+        { label:'Invites', badge: String(this._invites().filter(i=>i.stage==='submitted').length), active:this.state.dirTab==='invites', onClick:()=>this.setState({ dirTab:'invites' }) },
+      ].map(t => ({ ...t, bg: t.active?'#fff':'transparent', fg: t.active?'#18181b':'#9aa0a9', sh: t.active?'0 1px 3px rgba(16,24,40,.1)':'none', hasBadge: t.badge && t.badge!=='0' })),
+      inviteRows: this._invites().map(i => {
+        const S = {
+          invited:   { label:'Invite sent · awaiting details', dot:'#c79a3a', bg:'#faf7f0', bd:'#efe6d2', fg:'#8a6d24' },
+          submitted: { label:'Details submitted', dot:'#4a7dbd', bg:'#f2f6fb', bd:'#d9e4f2', fg:'#3a628f' },
+          approved:  { label:'Approved', dot:'#2c8c63', bg:'#f0f7f4', bd:'#d5e8df', fg:'#25714f' },
+          rejected:  { label:'Rejected', dot:'#c0413a', bg:'#fbf5f4', bd:'#efd9d7', fg:'#9c3631' },
+        }[i.stage];
+        return { ...i, initials: i.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase(), ...S,
+          isSubmitted: i.stage==='submitted', isInvited: i.stage==='invited',
+          onApprove: ()=>this._setInviteStage(i.email,'approved', i.name + ' approved — employee record activated'),
+          onReject: ()=>this._setInviteStage(i.email,'rejected', i.name + "'s submission rejected"),
+          onResend: ()=>this._toast('Invite re-sent to ' + i.email) };
+      }),
+      inviteCount: this._invites().length + ' invites · ' + this._invites().filter(i=>i.stage==='submitted').length + ' awaiting review',
       backToDir: ()=>this.setState({screen:'directory'}),
       empStats, holidays, notifs, notifCats,
       workedInit: this._fmt(this._worked || 0),
