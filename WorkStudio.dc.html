@@ -555,11 +555,11 @@
                 <div><h3 style="margin:0;font-size:16px;font-weight:600;letter-spacing:-.3px">Onboarding Invites</h3><p style="margin:5px 0 0;font-size:12.5px;color:#a1a5ae;font-weight:400">{{ inviteCount }}</p></div>
                 <button onClick="{{ openAddEmployee }}" style="display:flex;align-items:center;gap:7px;border:none;cursor:pointer;background:#18181b;color:#fff;font-weight:600;font-size:13px;padding:10px 15px;border-radius:11px"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>Invite Employee</button>
               </div>
-              <div style="display:grid;grid-template-columns:2.3fr 1.4fr 1fr .9fr 1.7fr 168px;gap:12px;min-width:{{ tMin }};padding:13px 22px;background:#fafafb;border-bottom:1px solid #ececee;font-size:11px;font-weight:600;color:#a1a5ae;letter-spacing:.4px;text-transform:uppercase">
+              <div style="display:grid;grid-template-columns:2.3fr 1.3fr .9fr .8fr 1.9fr 190px;gap:12px;min-width:{{ tMin }};padding:13px 22px;background:#fafafb;border-bottom:1px solid #ececee;font-size:11px;font-weight:600;color:#a1a5ae;letter-spacing:.4px;text-transform:uppercase">
                 <span>Candidate</span><span>Designation</span><span>Department</span><span>Invited</span><span>Status</span><span></span>
               </div>
               <sc-for list="{{ inviteRows }}" as="i" hint-placeholder-count="4">
-                <div style="display:grid;grid-template-columns:2.3fr 1.4fr 1fr .9fr 1.7fr 168px;gap:12px;min-width:{{ tMin }};padding:14px 22px;border-bottom:1px solid #f4f4f5;align-items:center;transition:background .15s" style-hover="background:#fafbfc">
+                <div style="display:grid;grid-template-columns:2.3fr 1.3fr .9fr .8fr 1.9fr 190px;gap:12px;min-width:{{ tMin }};padding:14px 22px;border-bottom:1px solid #f4f4f5;align-items:center;transition:background .15s" style-hover="background:#fafbfc">
                   <div style="display:flex;align-items:center;gap:12px;min-width:0">
                     <div style="width:38px;height:38px;flex:none;border-radius:11px;background:linear-gradient(180deg,#f4f4f5,#e7e8ec);display:flex;align-items:center;justify-content:center;color:#3f434b;font-weight:600;font-size:13px;border:1px solid #ececef">{{ i.initials }}</div>
                     <div style="min-width:0"><div style="font-size:13.5px;font-weight:600;color:#18181b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ i.name }}</div><div style="font-size:11.5px;font-weight:500;color:#b4b8c0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ i.email }}</div></div>
@@ -567,14 +567,14 @@
                   <span style="font-size:13px;font-weight:500;color:#3f434b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ i.desig }}</span>
                   <span style="font-size:13px;font-weight:500;color:#7c818b">{{ i.dept }}</span>
                   <span style="font-size:12.5px;font-weight:500;color:#a1a5ae">{{ i.sent }}</span>
-                  <span><span style="display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:600;color:{{ i.fg }};background:{{ i.bg }};border:1px solid {{ i.bd }};border-radius:8px;padding:5px 10px"><span style="width:6px;height:6px;border-radius:50%;background:{{ i.dot }}"></span>{{ i.label }}</span></span>
+                  <span><span style="display:inline-flex;align-items:center;gap:7px;white-space:nowrap;font-size:11.5px;font-weight:600;color:{{ i.fg }};background:{{ i.bg }};border:1px solid {{ i.bd }};border-radius:8px;padding:5px 10px"><span style="width:6px;height:6px;border-radius:50%;background:{{ i.dot }}"></span>{{ i.label }}</span></span>
                   <div style="display:flex;gap:7px;justify-content:flex-end">
                     <sc-if value="{{ i.isSubmitted }}" hint-placeholder-val="{{ false }}">
-                      <button onClick="{{ i.onApprove }}" style="border:none;cursor:pointer;background:#18181b;color:#fff;font-weight:600;font-size:12px;padding:8px 14px;border-radius:9px">Accept</button>
-                      <button onClick="{{ i.onReject }}" style="border:1px solid #e6e6e9;cursor:pointer;background:#fff;color:#c0413a;font-weight:600;font-size:12px;padding:8px 14px;border-radius:9px" style-hover="border-color:#e6c9c7;background:#fbf6f5">Reject</button>
+                      <button onClick="{{ i.onReview }}" style="white-space:nowrap;border:none;cursor:pointer;background:#18181b;color:#fff;font-weight:600;font-size:12px;padding:8px 14px;border-radius:9px">Review</button>
+                      <button onClick="{{ i.onReject }}" style="white-space:nowrap;border:1px solid #e6e6e9;cursor:pointer;background:#fff;color:#c0413a;font-weight:600;font-size:12px;padding:8px 14px;border-radius:9px" style-hover="border-color:#e6c9c7;background:#fbf6f5">Reject</button>
                     </sc-if>
                     <sc-if value="{{ i.isInvited }}" hint-placeholder-val="{{ false }}">
-                      <button onClick="{{ i.onResend }}" style="border:1px solid #e6e6e9;cursor:pointer;background:#fff;color:#52555c;font-weight:600;font-size:12px;padding:8px 14px;border-radius:9px" style-hover="border-color:#d6d8dd;color:#18181b">Resend invite</button>
+                      <button onClick="{{ i.onResend }}" style="white-space:nowrap;border:1px solid #e6e6e9;cursor:pointer;background:#fff;color:#52555c;font-weight:600;font-size:12px;padding:8px 14px;border-radius:9px" style-hover="border-color:#d6d8dd;color:#18181b">Resend invite</button>
                     </sc-if>
                   </div>
                 </div>
@@ -1485,6 +1485,51 @@
     </div>
   </sc-if>
 
+  <!-- REVIEW SUBMISSION -->
+  <sc-if value="{{ reviewOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeReview }}" style="position:fixed;inset:0;z-index:120;background:rgba(16,24,40,.42);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:20px">
+      <div onClick="{{ stopProp }}" style="width:100%;max-width:640px;max-height:88vh;overflow-y:auto;background:#fff;border-radius:22px;box-shadow:0 40px 90px -20px rgba(16,24,40,.5);animation:wsUp .3s cubic-bezier(.4,0,.2,1) both">
+        <div style="display:flex;align-items:center;gap:14px;padding:24px 26px;border-bottom:1px solid #ececee;position:sticky;top:0;background:#fff;border-radius:22px 22px 0 0">
+          <div style="width:46px;height:46px;flex:none;border-radius:14px;background:linear-gradient(180deg,#f4f4f5,#e7e8ec);display:flex;align-items:center;justify-content:center;color:#3f434b;font-weight:600;font-size:15px;border:1px solid #ececef">{{ rv.initials }}</div>
+          <div style="flex:1;min-width:0">
+            <h3 style="margin:0;font-size:17px;font-weight:600;letter-spacing:-.4px;color:#18181b">{{ rv.name }}</h3>
+            <p style="margin:3px 0 0;font-size:12.5px;color:#a1a5ae;font-weight:400">{{ rv.desig }} · {{ rv.dept }} · {{ rv.email }}</p>
+          </div>
+          <button onClick="{{ closeReview }}" style="border:1px solid #e6e6e9;background:#fff;cursor:pointer;width:34px;height:34px;flex:none;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#7c818b" style-hover="color:#18181b"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"></path></svg></button>
+        </div>
+        <div style="padding:22px 26px;display:flex;flex-direction:column;gap:20px">
+          <div>
+            <div style="font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:#a1a5ae;margin-bottom:12px">Submitted details</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px 22px">
+              <sc-for list="{{ rvFields }}" as="f" hint-placeholder-count="8">
+                <div style="grid-column:{{ f.span }}">
+                  <div style="font-size:11.5px;font-weight:500;color:#a1a5ae">{{ f.k }}</div>
+                  <div style="font-size:13.5px;font-weight:500;color:#27272a;margin-top:3px;line-height:1.5">{{ f.v }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:#a1a5ae;margin-bottom:12px">Uploaded documents</div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <sc-for list="{{ rvDocs }}" as="doc" hint-placeholder-count="4">
+                <div style="display:flex;align-items:center;gap:11px;border:1px solid #ececee;border-radius:12px;padding:11px 14px">
+                  <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#7c818b" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6"></path></svg>
+                  <span style="flex:1;font-size:13px;font-weight:500;color:#27272a">{{ doc }}</span>
+                  <span style="font-size:11.5px;font-weight:600;color:#2c8c63;background:#f0f7f4;border:1px solid #d5e8df;border-radius:7px;padding:3px 9px">Uploaded</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:flex-end;gap:10px;padding:18px 26px;border-top:1px solid #ececee;position:sticky;bottom:0;background:#fff;border-radius:0 0 22px 22px">
+          <button onClick="{{ rvReject }}" style="border:1px solid #e6e6e9;cursor:pointer;background:#fff;color:#c0413a;font-weight:600;font-size:13.5px;padding:11px 18px;border-radius:12px" style-hover="border-color:#e6c9c7;background:#fbf6f5">Reject</button>
+          <button onClick="{{ rvApprove }}" style="border:none;cursor:pointer;background:#18181b;color:#fff;font-weight:600;font-size:13.5px;padding:11px 20px;border-radius:12px;box-shadow:0 2px 6px rgba(24,24,27,.22)">Accept &amp; activate</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
   <!-- CONFIRM DELETE -->
   <sc-if value="{{ confirmOpen }}" hint-placeholder-val="{{ false }}">
     <div onClick="{{ cancelDelete }}" style="position:fixed;inset:0;z-index:125;background:rgba(16,24,40,.42);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:20px">
@@ -1536,7 +1581,13 @@ class Component extends DCLogic {
     { name:'Rahul Verma', email:'rahul.v@rpdaga.in', desig:'Compliance Analyst', dept:'Compliance', sent:'Jul 6', stage:'approved' },
   ];
   _invites = () => this.state.inviteList || this.INVITE_SEED;
-  _setInviteStage = (email, stage, msg) => this.setState({ inviteList: this._invites().map(i => i.email === email ? { ...i, stage } : i) }, () => this._toast(msg));
+  _setInviteStage = (email, stage, msg) => this.setState({ inviteList: this._invites().map(i => i.email === email ? { ...i, stage } : i), reviewInvite: null }, () => this._toast(msg));
+  SUBMISSION_SEED = {
+    'nikhil.b@rpdaga.in': { phone:'+91 98204 55671', dob:'12 Mar 1998', address:'B-402, Sea Breeze CHS, Andheri West, Mumbai 400053', pan:'BQXPB4471K', aadhaar:'XXXX XXXX 8823', bank:'HDFC Bank · A/c ····6641 · IFSC HDFC0000239', qual:'B.Com, CA Inter (both groups)', prevEmp:'M/s Shah & Associates · 1.5 yrs', emergency:'Ramesh Bansal (Father) · +91 98204 11234', docs:['PAN card','Aadhaar card','CA Inter marksheet','Relieving letter'] },
+    'ishaan.k@rpdaga.in': { phone:'+91 99675 30218', dob:'28 Aug 2002', address:'14 Shivaji Nagar, Kothrud, Pune 411038', pan:'DKJPK8102F', aadhaar:'XXXX XXXX 4417', bank:'ICICI Bank · A/c ····2280 · IFSC ICIC0000411', qual:'B.Com (pursuing), CA Foundation cleared', prevEmp:'Fresher', emergency:'Sunita Kulkarni (Mother) · +91 99675 88190', docs:['PAN card','Aadhaar card','CA Foundation result','College NOC'] },
+  };
+  openReview = (i) => this.setState({ reviewInvite: i.email });
+  closeReview = () => this.setState({ reviewInvite: null });
   _branches = () => this.state.branchList || this.BRANCH_SEED;
   _depts = () => this.state.deptList || this.DEPT_SEED;
 
@@ -2061,6 +2112,26 @@ class Component extends DCLogic {
       confirmTitle: this.state.confirmDel ? ('Delete ' + (this.state.confirmDel.kind==='branch'?'branch':'department') + ' "' + this.state.confirmDel.name + '"?') : '',
       confirmSub: this.state.confirmDel ? (this.state.confirmDel.kind==='branch' ? 'The branch will be removed and unlinked from all departments. This cannot be undone.' : 'The department will be removed from the organisation structure. This cannot be undone.') : '',
       confirmDelete: this.confirmDelete, cancelDelete: this.cancelDelete,
+      ...(() => {
+        const email = this.state.reviewInvite;
+        const inv = email && this._invites().find(i => i.email === email);
+        if (!inv) return { reviewOpen: false, rv: {}, rvDocs: [], rvFields: [] };
+        const d = this.SUBMISSION_SEED[email] || { phone:'+91 90000 00000', dob:'—', address:'—', pan:'—', aadhaar:'—', bank:'—', qual:'—', prevEmp:'—', emergency:'—', docs:['PAN card','Aadhaar card'] };
+        return {
+          reviewOpen: true,
+          rv: { ...inv, initials: inv.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase() },
+          rvFields: [
+            { k:'Phone', v:d.phone }, { k:'Date of birth', v:d.dob }, { k:'Address', v:d.address, wide:true },
+            { k:'PAN', v:d.pan }, { k:'Aadhaar', v:d.aadhaar }, { k:'Bank details', v:d.bank, wide:true },
+            { k:'Qualification', v:d.qual }, { k:'Previous employer', v:d.prevEmp },
+            { k:'Emergency contact', v:d.emergency, wide:true },
+          ].map(f => ({ ...f, span: f.wide ? '1 / -1' : 'auto' })),
+          rvDocs: d.docs,
+          rvApprove: ()=>this._setInviteStage(email,'approved', inv.name + ' approved — employee record activated'),
+          rvReject: ()=>this._setInviteStage(email,'rejected', inv.name + "'s submission rejected"),
+          closeReview: this.closeReview,
+        };
+      })(),
       // modals + toast
       modalOpen: !!this.state.modal, modalTitle: mcfg.title, modalSub: mcfg.sub, modalPrimary: mcfg.primary, modalFields,
       closeModal: this.closeModal, submitModal: this.submitModal, stopProp: (e)=>e.stopPropagation(),
@@ -2106,6 +2177,7 @@ class Component extends DCLogic {
         }[i.stage];
         return { ...i, initials: i.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase(), ...S,
           isSubmitted: i.stage==='submitted', isInvited: i.stage==='invited',
+          onReview: ()=>this.openReview(i),
           onApprove: ()=>this._setInviteStage(i.email,'approved', i.name + ' approved — employee record activated'),
           onReject: ()=>this._setInviteStage(i.email,'rejected', i.name + "'s submission rejected"),
           onResend: ()=>this._toast('Invite re-sent to ' + i.email) };
