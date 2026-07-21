@@ -929,24 +929,37 @@
                 </div>
               </sc-if>
               <sc-if value="{{ showEmpPicker }}" hint-placeholder-val="{{ false }}">
-                <div style="display:flex;align-items:center;gap:13px">
+                <div style="display:flex;flex-direction:column;gap:7px">
+                  <div style="display:flex;align-items:center;gap:12px">
                   <div style="width:42px;height:42px;flex:none;border-radius:12px;background:linear-gradient(180deg,#f4f4f5,#e7e8ec);display:flex;align-items:center;justify-content:center;color:#3f434b;font-weight:600;font-size:14px;border:1px solid #ececef">{{ calEmpInitials }}</div>
-                <div style="display:flex;flex-direction:column;gap:5px">
-                  <div style="position:relative;display:flex;align-items:center">
-                    <select value="{{ calEmpVal }}" onChange="{{ setCalEmp }}" style="appearance:none;-webkit-appearance:none;border:1px solid #e6e6e9;background:#fafafb;border-radius:10px;padding:8px 34px 8px 12px;font-size:14px;font-weight:600;color:#18181b;cursor:pointer;outline:none">
-                      <sc-for list="{{ calEmpList }}" as="o" hint-placeholder-count="10"><option value="{{ o.i }}">{{ o.name }}</option></sc-for>
-                    </select>
-                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#9aa0a9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;right:11px;pointer-events:none"><path d="M6 9l6 6 6-6"></path></svg>
+                  <div style="position:relative;width:250px">
+                    <div style="position:relative;display:flex;align-items:center">
+                      <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#9aa0a9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;left:11px;pointer-events:none"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-3.5-3.5"></path></svg>
+                      <input value="{{ empSearchQ }}" onInput="{{ setEmpSearchQ }}" onFocus="{{ openEmpSearch }}" placeholder="{{ calEmpName }}" style="width:100%;box-sizing:border-box;border:1px solid #e6e6e9;background:#fafafb;border-radius:10px;padding:9px 32px 9px 32px;font-size:14px;font-weight:600;color:#18181b;outline:none" style-focus="border-color:#c8cace;background:#fff" />
+                      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#9aa0a9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;right:11px;pointer-events:none"><path d="M6 9l6 6 6-6"></path></svg>
+                    </div>
+                    <sc-if value="{{ empSearchOpen }}" hint-placeholder-val="{{ false }}">
+                      <div onClick="{{ closeEmpSearch }}" style="position:fixed;inset:0;z-index:35"></div>
+                      <div style="position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:40;background:#fff;border:1px solid #ececee;border-radius:13px;box-shadow:0 18px 40px -12px rgba(16,24,40,.28);max-height:280px;overflow-y:auto;padding:6px">
+                        <sc-for list="{{ calEmpFiltered }}" as="o" hint-placeholder-count="8">
+                          <button onClick="{{ o.onPick }}" style="width:100%;display:flex;align-items:center;gap:11px;border:none;cursor:pointer;background:{{ o.rowBg }};border-radius:10px;padding:9px 10px;text-align:left" style-hover="background:#f4f4f5">
+                            <div style="width:32px;height:32px;flex:none;border-radius:9px;background:linear-gradient(180deg,#f4f4f5,#e7e8ec);display:flex;align-items:center;justify-content:center;color:#3f434b;font-weight:600;font-size:11.5px;border:1px solid #ececef">{{ o.initials }}</div>
+                            <div style="min-width:0"><div style="font-size:13px;font-weight:600;color:#18181b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ o.name }}</div><div style="font-size:11px;font-weight:500;color:#a1a5ae">{{ o.dept }}</div></div>
+                          </button>
+                        </sc-for>
+                        <sc-if value="{{ empSearchEmpty }}" hint-placeholder-val="{{ false }}">
+                          <div style="padding:14px 12px;font-size:12.5px;font-weight:500;color:#a1a5ae;text-align:center">No employees match your search</div>
+                        </sc-if>
+                      </div>
+                    </sc-if>
+                  </div>
                   </div>
                   <span style="font-size:11.5px;font-weight:500;color:#a1a5ae;padding-left:2px">Attendance · {{ monthLabel }}</span>
                 </div>
-              </div>
               </sc-if>
               <div style="display:flex;background:#f3f3f5;border:1px solid #ececed;border-radius:12px;padding:4px;gap:2px">
                 <button onClick="{{ setCalOverview }}" style="border:none;cursor:pointer;padding:8px 16px;border-radius:9px;font-weight:600;font-size:13px;background:{{ calOverviewBtn }};color:{{ calOverviewFg }};transition:all .18s">Overview</button>
-                <button onClick="{{ setCalMonth }}" style="border:none;cursor:pointer;padding:8px 16px;border-radius:9px;font-weight:600;font-size:13px;background:{{ calMonthBtn }};color:{{ calMonthFg }};transition:all .18s">Month</button>
-                <button onClick="{{ setCalWeek }}" style="border:none;cursor:pointer;padding:8px 16px;border-radius:9px;font-weight:600;font-size:13px;background:{{ calWeekBtn }};color:{{ calWeekFg }};transition:all .18s">Week</button>
-                <button onClick="{{ setCalDayView }}" style="border:none;cursor:pointer;padding:8px 16px;border-radius:9px;font-weight:600;font-size:13px;background:{{ calDayBtn }};color:{{ calDayFg }};transition:all .18s">Day</button>
+                <button onClick="{{ setCalDayView }}" style="border:none;cursor:pointer;padding:8px 16px;border-radius:9px;font-weight:600;font-size:13px;background:{{ calEmpBtn }};color:{{ calEmpFg }};transition:all .18s">By Employee</button>
               </div>
             </div>
 
@@ -1029,7 +1042,8 @@
             </sc-if>
           </section>
 
-          <!-- ATTENDANCE LIST -->
+          <!-- ATTENDANCE LIST (per employee only) -->
+          <sc-if value="{{ showByEmployee }}" hint-placeholder-val="{{ false }}">
           <section data-anim style="animation:wsUp .5s cubic-bezier(.4,0,.2,1) both;background:#fff;border:1px solid #ececee;border-radius:20px;overflow:hidden;overflow-x:{{ tScroll }};box-shadow:0 1px 2px rgba(16,24,40,.04)">
             <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:20px 24px;border-bottom:1px solid #ececee">
               <div><h3 style="margin:0;font-size:16px;font-weight:600;letter-spacing:-.3px">Attendance Log · {{ calEmpName }}</h3><p style="margin:4px 0 0;font-size:12.5px;color:#a1a5ae;font-weight:400">{{ attListTitle }}</p></div>
@@ -1077,7 +1091,9 @@
               </div>
             </sc-if>
           </section>
+          </sc-if>
 
+          <sc-if value="{{ showCalOverview }}" hint-placeholder-val="{{ true }}">
           <section style="display:grid;grid-template-columns:{{ statCols4 }};gap:14px">
             <sc-for list="{{ attStats2 }}" as="s" hint-placeholder-count="4">
               <div data-anim style="animation:wsUp .5s cubic-bezier(.4,0,.2,1) both;background:#fff;border:1px solid #ececee;border-radius:18px;padding:18px;box-shadow:0 1px 2px rgba(16,24,40,.04)">
@@ -1114,6 +1130,7 @@
               </div>
             </div>
           </section>
+          </sc-if>
         </div>
       </sc-if>
 
@@ -1557,7 +1574,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:&quot;100%&quot;},&quot;defaultExpanded&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;showClock&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
 class Component extends DCLogic {
-  state = { mode: 'admin', menuOpen: false, drawerOpen: false, empDrawer: null, vw: 1280, screen: 'dashboard', expanded: null, view: 'card', selected: 0, dept: 'All', ptab: 'overview', calEmp: 0, calView: 'overview', structTab: 'All', branchList: null, deptList: null, editKey: null, confirmDel: null, dirTab: 'employees', inviteList: null, calDay: 27, attListPeriod: 'month', leaveFilter: 'Pending', leaveDecisions: {}, allotEdits: {}, allotModal: null, allotDraft: {}, empAllotEdits: {}, empAllotModal: null, empAllotDraft: {}, modal: null, toast: null, form: {}, empEdits: {}, breakOn: false, checkedOut: false, logText: '', worklog: [ {id:1,text:'Statutory audit — Sunrise Textiles',done:true},{id:2,text:'Review Q1 tax filing — Horizon Pharma',done:false},{id:3,text:'1:1 with Rohan Gupta',done:false} ] };
+  state = { mode: 'admin', menuOpen: false, drawerOpen: false, empDrawer: null, vw: 1280, screen: 'dashboard', expanded: null, view: 'card', selected: 0, dept: 'All', ptab: 'overview', empSearchOpen: false, empSearchQ: '', calEmp: 0, calView: 'overview', structTab: 'All', branchList: null, deptList: null, editKey: null, confirmDel: null, dirTab: 'employees', inviteList: null, calDay: 27, attListPeriod: 'month', leaveFilter: 'Pending', leaveDecisions: {}, allotEdits: {}, allotModal: null, allotDraft: {}, empAllotEdits: {}, empAllotModal: null, empAllotDraft: {}, modal: null, toast: null, form: {}, empEdits: {}, breakOn: false, checkedOut: false, logText: '', worklog: [ {id:1,text:'Statutory audit — Sunrise Textiles',done:true},{id:2,text:'Review Q1 tax filing — Horizon Pharma',done:false},{id:3,text:'1:1 with Rohan Gupta',done:false} ] };
   _worked = 0;
 
   BRANCH_SEED = [
@@ -1894,9 +1911,13 @@ class Component extends DCLogic {
     const stMeta = { Present:{dot:'#2c8c63',label:'Present'}, Late:{dot:'#c79a3a',label:'Late'}, Leave:{dot:'#6b7a8f',label:'Leave'}, Absent:{dot:'#c0413a',label:'Absent'}, Weekend:{dot:'#e3e4e8',label:'Weekend'}, Upcoming:{dot:'#eceef1',label:'—'} };
     const statusFor = (idx, d) => { const date=new Date(2026,5,d); const dow=date.getDay(); if(dow===0||dow===6) return 'Weekend'; if(d>27) return 'Upcoming'; if(idx===3 && d>=20 && d<=22) return 'Leave'; const r=(idx*7+d*13)%17; if(r<1) return 'Leave'; if(r<3) return 'Late'; if(r===4) return 'Absent'; return 'Present'; };
     const times = (st, d) => { if(st==='Present') return { inT:'09:0'+((d*7)%6), outT:'18:1'+((d*3)%6), hrs:'9h 0'+((d*7)%6)+'m' }; if(st==='Late') return { inT:'09:4'+((d*2)%6), outT:'18:3'+(d%6), hrs:'8h 4'+(d%6)+'m' }; return { inT:'—', outT:'—', hrs:'—' }; };
-    const ci = this.state.calEmp || 0; const cv = this.state.calView || 'month'; const cday = this.state.calDay || 27;
+    const ci = this.state.calEmp || 0; const cv = this.state.calView || 'month'; const cday = this.state.calDay || 26;
     const calEmpRec = withEdits(this.EMP[ci] || this.EMP[0]);
     const calEmpList = this.EMP.map((x,i) => ({ i, name:x.name, sel: i===ci }));
+    const _eq = (this.state.empSearchQ||'').trim().toLowerCase();
+    const calEmpFiltered = this.EMP.map((x,i) => ({ i, name:x.name, dept:x.dept, initials:x.initials, sel:i===ci }))
+      .filter(o => !_eq || o.name.toLowerCase().includes(_eq) || (o.dept||'').toLowerCase().includes(_eq))
+      .map(o => ({ ...o, rowBg: o.sel?'#f4f4f5':'transparent', onPick: ()=>this.setState({ calEmp:o.i, empSearchOpen:false, empSearchQ:'', calView:(this.state.calView==='overview'?'day':this.state.calView) }) }));
     const firstDow = (new Date(2026,5,1).getDay() + 6) % 7; // Monday-based offset
     const monthCells = [];
     for (let i=0;i<firstDow;i++) monthCells.push({ blank:true, key:'b'+i, day:'', dot:'transparent', label:'', cellBg:'transparent', cellFg:'transparent', cellBd:'transparent', isToday:false, onClick:()=>{} });
@@ -2084,14 +2105,19 @@ class Component extends DCLogic {
       empAllotDraftRows, empAllotDraftTotal, closeEmpAllot: this.closeEmpAllot, saveEmpAllot: this.saveEmpAllot, resetEmpAllot: this.resetEmpAllot,
       // calendar
       calEmpList, calEmpName: calEmpRec.name, calEmpInitials: calEmpRec.initials,
-      setCalEmp: (e)=>this.setState({ calEmp: parseInt(e.target.value,10), calView: this.state.calView==='overview'?'month':this.state.calView }),
+      calEmpFiltered, empSearchOpen: this.state.empSearchOpen, empSearchQ: this.state.empSearchQ,
+      empSearchEmpty: calEmpFiltered.length === 0,
+      openEmpSearch: ()=>this.setState({ empSearchOpen:true }),
+      closeEmpSearch: ()=>this.setState({ empSearchOpen:false, empSearchQ:'' }),
+      setEmpSearchQ: (e)=>this.setState({ empSearchQ:e.target.value, empSearchOpen:true }),
       calOverviewBtn: cv==='overview'?'#18181b':'transparent', calOverviewFg: cv==='overview'?'#fff':'#52555c',
       calMonthBtn: cv==='month'?'#18181b':'transparent', calMonthFg: cv==='month'?'#fff':'#52555c',
       calWeekBtn: cv==='week'?'#18181b':'transparent', calWeekFg: cv==='week'?'#fff':'#52555c',
+      calEmpBtn: cv!=='overview'?'#18181b':'transparent', calEmpFg: cv!=='overview'?'#fff':'#52555c',
       calDayBtn: cv==='day'?'#18181b':'transparent', calDayFg: cv==='day'?'#fff':'#52555c',
       setCalOverview: ()=>this.setState({ calView:'overview' }), setCalMonth: ()=>this.setState({ calView:'month' }), setCalWeek: ()=>this.setState({ calView:'week' }), setCalDayView: ()=>this.setState({ calView:'day' }),
       showCalOverview: cv==='overview', showCalMonth: cv==='month', showCalWeek: cv==='week', showCalDay: cv==='day',
-      showEmpPicker: cv!=='overview',
+      showEmpPicker: cv!=='overview', showByEmployee: cv!=='overview',
       monthCells, calWeek, calDayDetail, calStats, calOverview, monthDayNums, weekdayHeads: DOW, monthLabel: 'June 2026', calEmpVal: ci,
       // attendance list
       attListTitle, monthList, weekList, yearList,
